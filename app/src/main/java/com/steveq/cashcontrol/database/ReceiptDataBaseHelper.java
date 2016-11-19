@@ -21,8 +21,7 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
     private static String CREATE_USERS_TABLE =
             "CREATE TABLE " +
                     USERS_TABLE +
-                    " (PRIMARY KEY " + BaseColumns._ID +
-                    " NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                    " (" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_USERS_USERNAME + " TEXT, " +
                     COLUMN_USERS_PASSWORD + " TEXT)";
 
