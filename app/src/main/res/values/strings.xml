@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CashControl</string>
+    <string name="user_name">Name...</string>
+    <string name="user_password">Password...</string>
+    <string name="log_in">log in</string>
+    <string name="create_acc">create</string>
 </resources>
