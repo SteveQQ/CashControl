@@ -3,9 +3,20 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Material">
         <!-- Customize your theme here. -->
+        <item name="android:colorPrimary">@color/material_light_blue_700</item>
+        <item name="android:colorPrimaryDark">@color/material_light_blue_900</item>
+        <item name="android:colorBackground">@color/material_light_blue_500</item>
+        <item name="android:colorAccent">@color/material_light_green_700</item>
     </style>
 
-    <style name="SplashTheme" parent="android:Theme.Material.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_backgorund</item>
+    <style name="AppTheme.NoActionBar" parent="android:Theme.Material.NoActionBar">
+        <item name="android:colorPrimary">@color/material_light_blue_700</item>
+        <item name="android:colorPrimaryDark">@color/material_light_blue_900</item>
+        <item name="android:colorBackground">@color/material_light_blue_500</item>
+        <item name="android:colorAccent">@color/material_light_green_700</item>
+    </style>
+
+    <style name="SplashTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 </resources>

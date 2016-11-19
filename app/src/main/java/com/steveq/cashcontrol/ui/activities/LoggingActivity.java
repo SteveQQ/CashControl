@@ -13,4 +13,8 @@ public class LoggingActivity extends Activity {
 
         setContentView(R.layout.logging_activity);
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
