@@ -8,12 +8,12 @@ import android.provider.BaseColumns;
 
 import com.steveq.cashcontrol.model.User;
 
-public class ReceiptDataSource {
+public class UsersDataSource {
 
     private Context mContext;
     private ReceiptDataBaseHelper mReceiptDataBaseHelper;
 
-    public ReceiptDataSource(Context context) {
+    public UsersDataSource(Context context) {
         mContext = context;
         mReceiptDataBaseHelper = new ReceiptDataBaseHelper(context);
     }
@@ -26,7 +26,7 @@ public class ReceiptDataSource {
         db.close();
     }
 
-    public void createUser(User user){
+    public long createUser(User user){
 
         SQLiteDatabase db = open();
         db.beginTransaction();
@@ -35,22 +35,22 @@ public class ReceiptDataSource {
         userValues.put(ReceiptDataBaseHelper.COLUMN_USERS_USERNAME, user.getUsername());
         userValues.put(ReceiptDataBaseHelper.COLUMN_USERS_PASSWORD, user.getPassword());
 
-        db.insert(ReceiptDataBaseHelper.USERS_TABLE, null, userValues);
+        long index = db.insert(ReceiptDataBaseHelper.USERS_TABLE, null, userValues);
 
         db.setTransactionSuccessful();
         db.endTransaction();
         close(db);
-
+        return index;
     }
 
-    public User readPassword(String username){
+    public User readUser(String username){
 
         SQLiteDatabase db = open();
         db.beginTransaction();
 
         Cursor cursor = db.query(
                 ReceiptDataBaseHelper.USERS_TABLE,
-                new String[]{ReceiptDataBaseHelper.COLUMN_USERS_PASSWORD},
+                new String[]{BaseColumns._ID, ReceiptDataBaseHelper.COLUMN_USERS_USERNAME, ReceiptDataBaseHelper.COLUMN_USERS_PASSWORD},
                 ReceiptDataBaseHelper.COLUMN_USERS_USERNAME + " = ?",
                 new String[]{username},
                 null,
@@ -63,7 +63,8 @@ public class ReceiptDataSource {
             db.setTransactionSuccessful();
             db.endTransaction();
             close(db);
-            return new User(getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_USERS_USERNAME),
+            return new User(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)),
+                            getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_USERS_USERNAME),
                             getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_USERS_PASSWORD));
         } else {
             db.setTransactionSuccessful();
@@ -71,31 +72,28 @@ public class ReceiptDataSource {
             close(db);
             return null;
         }
-
-
     }
 
-    public void updateUsername(String username){
+    public void updateUsername(User user, String newUsername){
 
         SQLiteDatabase db = open();
         db.beginTransaction();
 
         ContentValues updateUsernameValue = new ContentValues();
-        updateUsernameValue.put(ReceiptDataBaseHelper.COLUMN_USERS_USERNAME, username);
+        updateUsernameValue.put(ReceiptDataBaseHelper.COLUMN_USERS_USERNAME, newUsername);
         db.update(
                 ReceiptDataBaseHelper.USERS_TABLE,
                 updateUsernameValue,
-                ReceiptDataBaseHelper.COLUMN_USERS_USERNAME + "=" + username,
+                BaseColumns._ID + " = " + user.getId(),
                 null
         );
 
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
-
     }
 
-    public void updatePassword(String username, String password){
+    public void updatePassword(User user, String password){
         SQLiteDatabase db = open();
         db.beginTransaction();
 
@@ -104,7 +102,7 @@ public class ReceiptDataSource {
         db.update(
                 ReceiptDataBaseHelper.USERS_TABLE,
                 updatePasswordValue,
-                ReceiptDataBaseHelper.COLUMN_USERS_USERNAME + " = " + username,
+                BaseColumns._ID + " = " + user.getId(),
                 null
         );
 
@@ -113,14 +111,14 @@ public class ReceiptDataSource {
         db.close();
     }
 
-    public void deleteUser(String username){
+    public void deleteUser(User user){
 
         SQLiteDatabase db = open();
         db.beginTransaction();
 
         db.delete(
                 ReceiptDataBaseHelper.USERS_TABLE,
-                ReceiptDataBaseHelper.COLUMN_USERS_USERNAME + " = " + username,
+                BaseColumns._ID + " = " + user.getId(),
                 null
         );
 

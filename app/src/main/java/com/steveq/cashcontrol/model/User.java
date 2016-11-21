@@ -2,12 +2,18 @@ package com.steveq.cashcontrol.model;
 
 public class User {
 
+    private int mId;
     private String mUsername;
     private String mPassword;
 
-    public User(String username, String password) {
+    public User(int id, String username, String password) {
+        mId = id;
         mUsername = username;
         mPassword = password;
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public String getUsername() {

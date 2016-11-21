@@ -1,143 +1,123 @@
 package com.steveq.cashcontrol.controller;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.widget.Toast;
 
-import com.steveq.cashcontrol.database.ReceiptDataSource;
+import com.steveq.cashcontrol.database.UsersDataSource;
 import com.steveq.cashcontrol.model.User;
+import com.steveq.cashcontrol.ui.activities.LoggingActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserManager {
 
-    private static UserManager instance = null;
-    private Context mContext;
+    private final Context mContext;
     private User mCurrentUser;
-    private ReceiptDataSource mDataSource;
+    private UsersDataSource mUsersDataSource;
 
     public static final String CREATE_USER = "CREATE_USER";
 
 
-    protected UserManager(Context context){
+    public UserManager(Context context){
         mContext = context;
-        mDataSource = new ReceiptDataSource(context);
-    }
-
-    public User getCurrentUser() {
-        if(mCurrentUser != null) {
-            return mCurrentUser;
-        } else {
-            return new User("", "");
-        }
-    }
-
-    public static UserManager getInstance(Context context){
-        if(instance == null){
-            instance = new UserManager(context);
-        }
-        return instance;
+        mUsersDataSource = new UsersDataSource(context);
     }
 
     //******USERS SERVICES*****//
-//    public void changePassword(Context ctx, String oldPassword, String newPassword){
-//        if(     validate(oldPassword)              &&
-//                validate(newPassword)           &&
-//                passwordMatches(mCurrentUser, oldPassword)){
-//            if(!newPassword.equals(oldPassword)) {
-//                mCurrentUser.setPassword(newPassword);
-//                Toast.makeText(ctx, "Password Changed", Toast.LENGTH_LONG).show();
-//                logOut(ctx);
-//            } else {
-//                Toast.makeText(ctx, "Password duplicate", Toast.LENGTH_LONG).show();
-//            }
-//        } else {
-//            Toast.makeText(ctx, "Insert valid credentials", Toast.LENGTH_LONG).show();
-//        }
-//    }
-//
-//    public boolean changeUsername(Context ctx, String newUsername, String password){
-//        if(credentialValidation(newUsername, password)){
-//            if(passwordMatches(loadUser(mCurrentUser.getUserName()), password)) {
-//                User user = loadUser(mCurrentUser.getUserName());
-//                user.setUserName(newUsername);
-//                saveUser(newUsername, user);
-//                registerUser(newUsername);
-//                deleteUser(mCurrentUser.getUserName());
-//                logOut(ctx);
-//                return true;
-//            } else {
-//                Toast.makeText(ctx, "Insert correct password", Toast.LENGTH_LONG).show();
-//                return false;
-//            }
-//        }else {
-//            Toast.makeText(ctx, "Insert valid credentials", Toast.LENGTH_LONG).show();
-//            return false;
-//        }
-//    }
-
-    public boolean createNewUser(Context ctx, final String username, final String password){
-        if(credentialValidation(username, password)){
-            mDataSource.createUser(new User(username, password));
-            //saveUser(username, new User(username, password));
-            //registerUser(username);
-            return true;
+    public void changePassword(String oldPassword, String newPassword){
+        if(validate(oldPassword) && validate(newPassword)){
+            if(mCurrentUser.getPassword().equals(oldPassword)) {
+                if (!newPassword.equals(oldPassword)) {
+                    mUsersDataSource.updatePassword(mCurrentUser, newPassword);
+                    Toast.makeText(mContext, "Password Changed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, "Password duplicate", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(ctx, "User already exists", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Only alpha-num values allowed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean changeUsername(String newUsername, String password){
+        if(credentialValidation(newUsername, password)){
+            if(mCurrentUser.getPassword().equals(password)) {
+                mUsersDataSource.updateUsername(mCurrentUser, newUsername);
+                Toast.makeText(mContext, "Username changed", Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                Toast.makeText(mContext, "Insert correct password", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }else {
+            Toast.makeText(mContext, "Only alpha-num values allowed", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
 
-//    public boolean logIn(Context ctx, String username, String password){
-//        if(credentialValidation(username, password) && mUserNames.contains(username)){
-//            if(passwordMatches(loadUser(username), password)){
-//                mCurrentUser = loadUser(username);
+    public boolean createNewUser(final String username, final String password){
+        long pk = mUsersDataSource.createUser(new User(-1, username, password));
+        if(credentialValidation(username, password)){
+            if(pk != -1) {
+                Toast.makeText(mContext, "User created", Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                Toast.makeText(mContext, "User already exists", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean logIn(String username, String password){
+        mCurrentUser = mUsersDataSource.readUser(username);
+        if(credentialValidation(username, password) && mCurrentUser != null){
+            if(mCurrentUser.getPassword().equals(password)){
 //                Intent intent = new Intent(mContext, MainActivity.class);
 //                mContext.startActivity(intent);
-//                Toast.makeText(ctx, "Hello!", Toast.LENGTH_SHORT).show();
-//                return true;
-//            } else {
-//                Toast.makeText(ctx, "Wrong Password", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//        } else {
-//            Toast.makeText(ctx, "No such user", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
-//    }
-//
-//    public boolean logOut(Context ctx){
-//        Intent intent = new Intent(ctx, LoginActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        ctx.startActivity(intent);
-//        return true;
-//    }
-//
-//    public boolean removeUser(Context ctx, String password){
-//        if(credentialValidation(mCurrentUser.getUserName(), password) && mUserNames.contains(mCurrentUser.getUserName())){
-//            if(passwordMatches(loadUser(mCurrentUser.getUserName()), password)){
-//                deleteUser(mCurrentUser.getUserName());
-//                Toast.makeText(ctx, "User Removed", Toast.LENGTH_LONG).show();
-//                logOut(ctx);
-//                return true;
-//            } else {
-//                Toast.makeText(ctx, "Wrong Password", Toast.LENGTH_LONG).show();
-//                return false;
-//            }
-//        } else {
-//            Toast.makeText(ctx, "Wrong Credentials", Toast.LENGTH_LONG).show();
-//            return false;
-//        }
-//    }
+                Toast.makeText(mContext, "Hello!", Toast.LENGTH_SHORT).show();
+                return true;
+            } else{
+                Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
+            Toast.makeText(mContext, "No such user", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    public boolean logOut(){
+        Intent intent = new Intent(mContext, LoggingActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mContext.startActivity(intent);
+        return true;
+    }
+
+    public boolean removeUser(String password){
+        if(validate(password)){
+            if(mCurrentUser.getPassword().equals(password)){
+                mUsersDataSource.deleteUser(mCurrentUser);
+                Toast.makeText(mContext, "User Removed", Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
+            Toast.makeText(mContext, "Only alpha-num values allowed", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
 
     //******USERS SERVICES*****//
 
     //******HELPER METHODS*****//
-    private boolean passwordMatches(User user, String password){
-        return user.getPassword().equals(password);
-    }
-
 
     private boolean validate(String input){
         Pattern pattern = Pattern.compile("[a-zA-Z\\d]*");
@@ -155,13 +135,5 @@ public class UserManager {
         }
         return false;
     }
-
-//    private boolean deleteUser(String username){
-//        mEditor.remove(username);
-//        mUserNames.remove(username);
-//        mEditor.putStringSet(KEY_USERS_SET, mUserNames);
-//        mEditor.commit();
-//        return true;
-//    }
     //******HELPER METHODS*****//
 }
