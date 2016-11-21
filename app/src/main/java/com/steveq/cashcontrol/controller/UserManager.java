@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.steveq.cashcontrol.database.UsersDataSource;
 import com.steveq.cashcontrol.model.User;
+import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 import com.steveq.cashcontrol.ui.activities.LoggingActivity;
 
 import java.util.regex.Matcher;
@@ -78,8 +79,8 @@ public class UserManager {
         mCurrentUser = mUsersDataSource.readUser(username);
         if(credentialValidation(username, password) && mCurrentUser != null){
             if(mCurrentUser.getPassword().equals(password)){
-//                Intent intent = new Intent(mContext, MainActivity.class);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, CatalogsActivity.class);
+                mContext.startActivity(intent);
                 Toast.makeText(mContext, "Hello!", Toast.LENGTH_SHORT).show();
                 return true;
             } else{

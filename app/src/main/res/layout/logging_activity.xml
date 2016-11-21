@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/iconImageView"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="48dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_centerHorizontal="true"
@@ -43,17 +43,6 @@
         android:hint="@string/user_password"/>
 
     <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/passwordEditText"
-        android:layout_marginTop="48dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:text="@string/log_in"
-        android:background="@drawable/rounded_button"/>
-
-    <Button
         android:id="@+id/createButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,5 +52,16 @@
         android:textSize="16sp"
         android:text="@string/create_acc"
         android:background="#00000000"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/createButton"
+        android:layout_marginBottom="70dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:text="@string/log_in"
+        android:background="@drawable/rounded_button"/>
 
 </RelativeLayout>
