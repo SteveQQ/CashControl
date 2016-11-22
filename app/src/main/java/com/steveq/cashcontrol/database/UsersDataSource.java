@@ -116,10 +116,4 @@ public class UsersDataSource extends DataSource{
 
     }
 
-    private String getStringFromColumnName(Cursor cursor, String columnName) {
-        int columnIndex = cursor.getColumnIndex(columnName);
-        return cursor.getString(columnIndex);
-    }
-
-
 }

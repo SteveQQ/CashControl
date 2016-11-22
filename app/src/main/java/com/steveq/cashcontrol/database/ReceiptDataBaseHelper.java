@@ -18,6 +18,7 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
     //CATALOGS TABLE ATTRIBUTES
     public static final String CATALOGS_TABLE = "CATALOGS";
     public static final String COLUMN_CATALOGS_FK_USER= "FK_USER";
+    public static final String COLUMN_CATALOGS_SUM = "SUM";
     public static final String COLUMN_CATALOGS_NAME = "NAME";
     public static final String COLUMN_CATALOGS_START_DATE = "START_DATE";
     public static final String COLUMN_CATALOGS_END_DATE = "END_DATE";
@@ -35,6 +36,7 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
             "CREATE TABLE " + CATALOGS_TABLE + " (" +
                     BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_CATALOGS_FK_USER + " INTEGER, "+
+                    COLUMN_CATALOGS_SUM + " REAL, "+
                     COLUMN_CATALOGS_NAME + " TEXT, " +
                     COLUMN_CATALOGS_START_DATE + " INTEGER, " +
                     COLUMN_CATALOGS_END_DATE + " INTEGER, " +
