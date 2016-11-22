@@ -15,6 +15,12 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
     public static final String USERS_TABLE = "USERS";
     public static final String COLUMN_USERS_USERNAME = "USERNAME";
     public static final String COLUMN_USERS_PASSWORD = "PASSWORD";
+    //CATALOGS TABLE ATTRIBUTES
+    public static final String CATALOGS_TABLE = "CATALOGS";
+    public static final String COLUMN_CATALOGS_USER= "USER";
+    public static final String COLUMN_CATALOGS_NAME = "NAME";
+    public static final String COLUMN_CATALOGS_START_DATE = "START_DATE";
+    public static final String COLUMN_CATALOGS_END_DATE = "END_DATE";
 
     //DDL:
     //CREATE USERS TABLE
@@ -24,6 +30,17 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
                     " (" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_USERS_USERNAME + " TEXT UNIQUE, " +
                     COLUMN_USERS_PASSWORD + " TEXT)";
+    //CREATE CATALOGS TABLE
+    private static String CREATE_CATALOGS_TABLE =
+            "CREATE TABLE " + CATALOGS_TABLE + " (" +
+                    BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_CATALOGS_NAME + " TEXT, " +
+                    COLUMN_CATALOGS_START_DATE + " INTEGER, " +
+                    COLUMN_CATALOGS_END_DATE + " INTEGER, " +
+                    COLUMN_CATALOGS_USER + " INTEGER, " +
+                    "FOREIGN KEY (" + COLUMN_CATALOGS_USER + ") REFERENCES USERS(_id))";
+
+
 
 
     public ReceiptDataBaseHelper(Context context){
@@ -33,6 +50,7 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USERS_TABLE);
+        db.execSQL(CREATE_CATALOGS_TABLE);
     }
 
     @Override

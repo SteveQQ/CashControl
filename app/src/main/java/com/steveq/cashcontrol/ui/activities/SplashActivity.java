@@ -35,6 +35,7 @@ public class SplashActivity extends Activity {
                 rdbHelper.close();
                 return true;
             } catch(SQLiteException sqle){
+                sqle.printStackTrace();
                 return false;
             }
         }
