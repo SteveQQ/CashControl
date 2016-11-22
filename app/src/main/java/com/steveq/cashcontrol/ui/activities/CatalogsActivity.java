@@ -37,8 +37,10 @@ public class CatalogsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ArrayList<Catalog> ca = new CatalogsDataSource(CatalogsActivity.this).readCatalogs();
                 new CatalogsDataSource(CatalogsActivity.this).deleteCatalog(ca.get(1));
-                for(Catalog c : ca){
-                    Log.d("CC", c.getName());
+                new CatalogsDataSource(CatalogsActivity.this).updateCatalogSum(ca.get(0), 12.23);
+                ArrayList<Catalog> ca2 = new CatalogsDataSource(CatalogsActivity.this).readCatalogs();
+                for(Catalog c : ca2){
+                    Log.d("CC", Double.toString(c.getSum()));
                 }
             }
         });

@@ -97,4 +97,26 @@ public class CatalogsDataSource extends DataSource{
 
     }
 
+    public void updateCatalogSum(Catalog catalog, double sum){
+
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        ContentValues newSum = new ContentValues();
+        newSum.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_SUM, sum);
+
+        db.update(
+                ReceiptDataBaseHelper.CATALOGS_TABLE,
+                newSum,
+                BaseColumns._ID + " = ?",
+                new String[]{Integer.toString(catalog.getId())}
+        );
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
 }
