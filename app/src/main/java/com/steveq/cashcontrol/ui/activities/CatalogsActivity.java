@@ -32,11 +32,11 @@ public class CatalogsActivity extends AppCompatActivity {
         new CatalogsDataSource(CatalogsActivity.this).createCatalog(new Catalog(-1, UserManager.mCurrentUser.getId(), 0, "test", 10, 10));
         new CatalogsDataSource(CatalogsActivity.this).createCatalog(new Catalog(-1, UserManager.mCurrentUser.getId(), 0, "test2", 20, 20));
 
-
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<Catalog> ca = new CatalogsDataSource(CatalogsActivity.this).readCatalogs();
+                new CatalogsDataSource(CatalogsActivity.this).deleteCatalog(ca.get(1));
                 for(Catalog c : ca){
                     Log.d("CC", c.getName());
                 }
