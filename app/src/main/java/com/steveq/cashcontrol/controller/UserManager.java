@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class UserManager {
 
     private final Context mContext;
-    private User mCurrentUser;
+    public static User mCurrentUser;
     private UsersDataSource mUsersDataSource;
 
     public static final String CREATE_USER = "CREATE_USER";

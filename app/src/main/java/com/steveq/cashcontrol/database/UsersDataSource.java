@@ -8,22 +8,10 @@ import android.provider.BaseColumns;
 
 import com.steveq.cashcontrol.model.User;
 
-public class UsersDataSource {
-
-    private Context mContext;
-    private ReceiptDataBaseHelper mReceiptDataBaseHelper;
+public class UsersDataSource extends DataSource{
 
     public UsersDataSource(Context context) {
-        mContext = context;
-        mReceiptDataBaseHelper = new ReceiptDataBaseHelper(context);
-    }
-
-    private SQLiteDatabase open(){
-        return mReceiptDataBaseHelper.getWritableDatabase();
-    }
-
-    private void close(SQLiteDatabase db){
-        db.close();
+        super(context);
     }
 
     public long createUser(User user){
