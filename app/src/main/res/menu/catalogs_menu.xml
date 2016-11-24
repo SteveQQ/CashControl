@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addCatalog"
+        android:icon="@drawable/plus_math"
+        android:title="@string/add_catalog"
+        app:showAsAction="ifRoom"/>
+
+</menu>

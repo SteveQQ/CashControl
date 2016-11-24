@@ -4,4 +4,5 @@
     <string name="user_password">Password...</string>
     <string name="log_in">log in</string>
     <string name="create_acc">create</string>
+    <string name="add_catalog">Add Catalog</string>
 </resources>

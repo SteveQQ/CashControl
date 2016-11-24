@@ -13,15 +13,7 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/material_light_blue_700"
         android:elevation="4dp"
-        android:theme="@style/AppTheme"
-        app:popupTheme="@style/AppTheme"/>
-
-    <Button
-        android:id="@+id/create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="24sp"
-        android:text="CREATE"/>
+        android:theme="@style/AppThemeCompat"
+        app:popupTheme="@style/AppThemeCompat"/>
 
 </RelativeLayout>

@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_cash_96"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeMaterial">
         <activity
             android:name=".ui.activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".ui.activities.LoggingActivity">
         </activity>
-        <activity android:name=".ui.activities.CatalogsActivity">
+        <activity android:name=".ui.activities.CatalogsActivity"
+            android:theme="@style/AppThemeCompat">add
         </activity>
     </application>
 
