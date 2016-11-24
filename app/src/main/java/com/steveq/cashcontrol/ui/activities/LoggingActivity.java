@@ -15,8 +15,6 @@ public class LoggingActivity extends Activity {
     private EditText mPasswordEditText;
     private Button mLoginButton;
     private Button mCreateButton;
-    private Button mExtra;
-    private UserManager mUserManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +25,18 @@ public class LoggingActivity extends Activity {
         mPasswordEditText = (EditText) findViewById(R.id.passwordEditText);
         mLoginButton = (Button) findViewById(R.id.loginButton);
         mCreateButton = (Button) findViewById(R.id.createButton);
-        mUserManager = new UserManager(this);
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoggingActivity.this.mUserManager.logIn(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
+                UserManager.getInstance().logIn(LoggingActivity.this, mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
             }
         });
 
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoggingActivity.this.mUserManager.createNewUser(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
+                UserManager.getInstance().createNewUser(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
             }
         });
 

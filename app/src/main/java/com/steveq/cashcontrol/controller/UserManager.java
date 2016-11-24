@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.steveq.cashcontrol.CashControlApplication;
 import com.steveq.cashcontrol.database.UsersDataSource;
 import com.steveq.cashcontrol.model.User;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
@@ -17,13 +18,20 @@ public class UserManager {
     private final Context mContext;
     public static User mCurrentUser;
     private UsersDataSource mUsersDataSource;
+    private static UserManager instance;
 
     public static final String CREATE_USER = "CREATE_USER";
 
-
-    public UserManager(Context context){
+    private UserManager(Context context){
         mContext = context;
         mUsersDataSource = new UsersDataSource(context);
+    }
+
+    public static UserManager getInstance() {
+        if(instance == null){
+            instance = new UserManager(CashControlApplication.getContext());
+        }
+        return instance;
     }
 
     //******USERS SERVICES*****//
@@ -75,12 +83,12 @@ public class UserManager {
         }
     }
 
-    public boolean logIn(String username, String password){
+    public boolean logIn(Context context, String username, String password){
         mCurrentUser = mUsersDataSource.readUser(username);
         if(credentialValidation(username, password) && mCurrentUser != null){
             if(mCurrentUser.getPassword().equals(password)){
-                Intent intent = new Intent(mContext, CatalogsActivity.class);
-                mContext.startActivity(intent);
+                Intent intent = new Intent(context, CatalogsActivity.class);
+                context.startActivity(intent);
                 Toast.makeText(mContext, "Hello!", Toast.LENGTH_SHORT).show();
                 return true;
             } else{

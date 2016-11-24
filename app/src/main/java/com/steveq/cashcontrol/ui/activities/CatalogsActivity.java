@@ -36,9 +36,16 @@ public class CatalogsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private void setToolbarView(){
         catalogsToolbar = (Toolbar) findViewById(R.id.catalogsToolbar);
         setSupportActionBar(catalogsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
 }
