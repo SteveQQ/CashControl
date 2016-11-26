@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
+import com.steveq.cashcontrol.CashControlApplication;
 import com.steveq.cashcontrol.controller.UserManager;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.User;
@@ -14,8 +15,17 @@ import java.util.ArrayList;
 
 public class CatalogsDataSource extends DataSource{
 
-    public CatalogsDataSource(Context context) {
+    private static CatalogsDataSource instance;
+
+    private CatalogsDataSource(Context context) {
         super(context);
+    }
+
+    public static CatalogsDataSource getInstance() {
+        if(instance == null){
+            instance = new CatalogsDataSource(CashControlApplication.getContext());
+        }
+        return instance;
     }
 
     public void createCatalog(Catalog catalog){

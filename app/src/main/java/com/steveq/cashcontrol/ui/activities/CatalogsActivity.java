@@ -54,7 +54,6 @@ public class CatalogsActivity extends AppCompatActivity {
                 return true;
 
             case R.id.addCatalog:
-                //TODO: add logic to create catalog
                 new CreateCatalogDialogFragment()
                         .show(getFragmentManager(), CreateCatalogDialogFragment.CREATE_CATALOG_TAG);
 
