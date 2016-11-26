@@ -18,9 +18,14 @@
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="android:textColorHint">#88ffffff</item>
     </style>
     ada
     <style name="SplashTheme" parent="AppThemeMaterial">
         <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+    
+    <style name="DatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">@color/material_light_green_700</item>
     </style>
 </resources>

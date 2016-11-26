@@ -101,10 +101,11 @@ public class UserManager {
         }
     }
 
-    public boolean logOut(){
-        Intent intent = new Intent(mContext, LoggingActivity.class);
+    public boolean logOut(Context context){
+        mCurrentUser = null;
+        Intent intent = new Intent(context, LoggingActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mContext.startActivity(intent);
+        context.startActivity(intent);
         return true;
     }
 
