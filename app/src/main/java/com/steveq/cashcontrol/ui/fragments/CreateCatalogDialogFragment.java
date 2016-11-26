@@ -19,6 +19,9 @@ import java.util.Calendar;
 
 public class CreateCatalogDialogFragment extends DialogFragment {
 
+    int curYear;
+    int curMonth;
+    int curDay;
     public static final String CREATE_CATALOG_TAG = "CREATE_CATALOG_TAG";
 
     @Override
@@ -51,28 +54,22 @@ public class CreateCatalogDialogFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
 
+        getCurDate();
         final EditText startDate = (EditText) getDialog().findViewById(R.id.startDateEditText);
-        EditText endDate = (EditText) getDialog().findViewById(R.id.endDateEditText);
+        final EditText endDate = (EditText) getDialog().findViewById(R.id.endDateEditText);
 
         startDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    final Calendar calendar = Calendar.getInstance();
-                    final int curYear = calendar.get(Calendar.YEAR);
-                    final int curMonth = calendar.get(Calendar.MONTH);
-                    final int curDay = calendar.get(Calendar.DAY_OF_MONTH);
+                if (hasFocus) {
 
                     new DatePickerDialog(getActivity(),
                             R.style.DatePickerStyle,
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                    Toast.makeText(getActivity(), Integer.toString(dayOfMonth), Toast.LENGTH_LONG).show();
-                                    if(year >= curYear &&
-                                            month >= curMonth &&
-                                            dayOfMonth >= curDay) {
-
+                                    if ((year >= curYear &&
+                                            month >= curMonth)) {
                                         startDate.setText(String.format("%d/%d/%d", dayOfMonth, month, year));
                                     } else {
                                         startDate.setText(String.format("%d/%d/%d", curDay, curMonth, curYear));
@@ -90,25 +87,34 @@ public class CreateCatalogDialogFragment extends DialogFragment {
         endDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    Calendar calendar = Calendar.getInstance();
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = calendar.get(Calendar.MONTH);
-                    int day = calendar.get(Calendar.DAY_OF_MONTH);
-
+                if (hasFocus) {
                     new DatePickerDialog(getActivity(),
                             R.style.DatePickerStyle,
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                    Toast.makeText(getActivity(), Integer.toString(dayOfMonth), Toast.LENGTH_LONG).show();
+                                    if (year >= curYear &&
+                                            month >= curMonth &&
+                                            dayOfMonth >= curDay) {
+                                        endDate.setText(String.format("%d/%d/%d", dayOfMonth, month, year));
+                                    } else {
+                                        endDate.setText(String.format("%d/%d/%d", curDay, curMonth, curYear));
+                                    }
+                                    endDate.clearFocus();
                                 }
                             },
-                            year,
-                            month,
-                            day).show();
+                            curYear,
+                            curMonth,
+                            curDay).show();
                 }
             }
         });
+    }
+
+    private void getCurDate(){
+        Calendar calendar = Calendar.getInstance();
+        curYear = calendar.get(Calendar.YEAR);
+        curMonth = calendar.get(Calendar.MONTH);
+        curDay = calendar.get(Calendar.DAY_OF_MONTH);
     }
 }
