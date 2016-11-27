@@ -11,4 +11,9 @@
     <string name="end_date">End Date</string>
     <string name="accept_button">accept</string>
     <string name="back_button">back</string>
+    <string-array name="currency_array">
+        <item>PLN</item>
+        <item>EUR</item>
+        <item>USD</item>
+    </string-array>
 </resources>

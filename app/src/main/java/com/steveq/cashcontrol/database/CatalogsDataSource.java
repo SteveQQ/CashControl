@@ -39,6 +39,7 @@ public class CatalogsDataSource extends DataSource{
         catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_NAME, catalog.getName());
         catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE, catalog.getStartTime());
         catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE, catalog.getEndTime());
+        catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_CURRENCY, catalog.getCurrency());
 
         db.insert(
                 ReceiptDataBaseHelper.CATALOGS_TABLE,
@@ -62,7 +63,8 @@ public class CatalogsDataSource extends DataSource{
                         ReceiptDataBaseHelper.COLUMN_CATALOGS_SUM,
                         ReceiptDataBaseHelper.COLUMN_CATALOGS_NAME,
                         ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE,
-                        ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE},
+                        ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE,
+                        ReceiptDataBaseHelper.COLUMN_CATALOGS_CURRENCY},
                 null,
                 null,
                 null,
@@ -80,7 +82,8 @@ public class CatalogsDataSource extends DataSource{
                         getDoubleFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_SUM),
                         getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_NAME),
                         getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE),
-                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE))
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_CURRENCY))
                         );
             }while(cursor.moveToNext());
         }

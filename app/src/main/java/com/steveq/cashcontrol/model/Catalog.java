@@ -8,14 +8,16 @@ public class Catalog {
     private double mSum;
     private long mStartTime;
     private long mEndTime;
+    private String mCurrency;
 
-    public Catalog(int mId, int fk, double sum, String name, long startTime, long endTime) {
+    public Catalog(int mId, int fk, double sum, String name, long startTime, long endTime, String currency) {
         this.mId = mId;
         fkId = fk;
         mSum = sum;
         mName = name;
         mStartTime = startTime;
         mEndTime = endTime;
+        mCurrency = currency;
     }
 
     public int getId() {
@@ -40,5 +42,9 @@ public class Catalog {
 
     public long getEndTime() {
         return mEndTime;
+    }
+
+    public String getCurrency() {
+        return mCurrency;
     }
 }

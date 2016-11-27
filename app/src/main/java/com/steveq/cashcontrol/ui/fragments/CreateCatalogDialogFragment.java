@@ -6,11 +6,17 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.controller.UserManager;
@@ -29,6 +35,7 @@ public class CreateCatalogDialogFragment extends DialogFragment{
     private EditText name;
     private EditText startDate;
     private EditText endDate;
+    private Spinner currencySpinner;
     private Converter mConverter;
     public static final String CREATE_CATALOG_TAG = "CREATE_CATALOG_TAG";
 
@@ -52,7 +59,8 @@ public class CreateCatalogDialogFragment extends DialogFragment{
                                                             0,
                                                             name.getText().toString(),
                                                             mConverter.stringToTimestamp(startDate.getText().toString()),
-                                                            mConverter.stringToTimestamp(endDate.getText().toString())));
+                                                            mConverter.stringToTimestamp(endDate.getText().toString()),
+                                                            currencySpinner.getSelectedItem().toString()));
                     }
                 })
                 .setNegativeButton(R.string.back_button, new DialogInterface.OnClickListener() {
@@ -103,6 +111,17 @@ public class CreateCatalogDialogFragment extends DialogFragment{
                 }
             }
         });
+
+        setSpinnerView();
+    }
+
+    private void setSpinnerView() {
+        currencySpinner = (Spinner) getDialog().findViewById(R.id.currencySpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                                                                                R.array.currency_array,
+                                                                                android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        currencySpinner.setAdapter(adapter);
     }
 
     @Override

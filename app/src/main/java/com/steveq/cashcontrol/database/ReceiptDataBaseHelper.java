@@ -22,6 +22,7 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
     public static final String COLUMN_CATALOGS_NAME = "NAME";
     public static final String COLUMN_CATALOGS_START_DATE = "START_DATE";
     public static final String COLUMN_CATALOGS_END_DATE = "END_DATE";
+    public static final String COLUMN_CATALOGS_CURRENCY = "CURRENCY";
 
     //DDL:
     //CREATE USERS TABLE
@@ -40,6 +41,7 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
                     COLUMN_CATALOGS_NAME + " TEXT, " +
                     COLUMN_CATALOGS_START_DATE + " INTEGER, " +
                     COLUMN_CATALOGS_END_DATE + " INTEGER, " +
+                    COLUMN_CATALOGS_CURRENCY + " TEXT, " +
                     "FOREIGN KEY (" + COLUMN_CATALOGS_FK_USER + ") REFERENCES USERS(_id)) ";
 
 

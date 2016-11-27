@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.steveq.cashcontrol.R;
@@ -39,8 +40,8 @@ public class CatalogsAdapter extends RecyclerView.Adapter<CatalogsAdapter.ViewHo
 
         Catalog catalog = mCatalogs.get(position);
         holder.catalogName.setText(catalog.getName());
-        holder.catalogSum.setText(Double.toString(catalog.getSum()));
-        holder.catalogDaterange.setText(String.format("From %s To %s",
+        holder.catalogSum.setText(String.format("%s  %s", Double.toString(catalog.getSum()), catalog.getCurrency()));
+        holder.catalogDaterange.setText(String.format("From  %s  To  %s",
                                                         mConverter.timestampToString(catalog.getStartTime()),
                                                         mConverter.timestampToString(catalog.getEndTime())));
 
@@ -64,12 +65,6 @@ public class CatalogsAdapter extends RecyclerView.Adapter<CatalogsAdapter.ViewHo
             catalogSum = (TextView) itemView.findViewById(R.id.catalogSumTextView);
             catalogDaterange = (TextView) itemView.findViewById(R.id.catalogDaterangeTextView);
         }
-    }
-
-    public void updateData(ArrayList<Catalog> freshData){
-        mCatalogs.clear();
-        mCatalogs.addAll(freshData);
-        notifyDataSetChanged();
     }
 
 }
