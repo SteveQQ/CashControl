@@ -23,6 +23,9 @@
         <activity android:name=".ui.activities.CatalogsActivity"
             android:theme="@style/AppThemeCompat">add
         </activity>
+        <activity android:name=".ui.activities.ReceiptsActivity"
+                  android:theme="@style/AppThemeCompat">add
+        </activity>
     </application>
 
 </manifest>

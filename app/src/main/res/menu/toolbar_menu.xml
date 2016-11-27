@@ -2,9 +2,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/addCatalog"
+        android:id="@+id/addItem"
         android:icon="@drawable/plus_math"
-        android:title="@string/add_catalog"
+        android:title="@string/add_item"
         app:showAsAction="ifRoom"/>
 
 </menu>
