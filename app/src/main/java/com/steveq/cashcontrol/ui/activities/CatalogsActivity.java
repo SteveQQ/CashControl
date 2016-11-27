@@ -100,7 +100,6 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
         AlertDialog.Builder simpleAlertBuilder = new AlertDialog.Builder(this, R.style.DatePickerStyle);
 
         simpleAlertBuilder
-                .setTitle("Sure?")
                 .setMessage("Are you sure deleting catalog?")
                 .setPositiveButton("Yeah!", new DialogInterface.OnClickListener() {
                     @Override
