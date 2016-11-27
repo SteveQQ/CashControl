@@ -38,16 +38,6 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
 
     }
 
-    private void createRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.catalogsRecycler);
-        mAdapter = new CatalogsAdapter(this, CatalogsDataSource.getInstance().readCatalogs());
-
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(lm);
-        recyclerView.setAdapter(mAdapter);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -80,12 +70,6 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
 
     }
 
-    private void setToolbarView(){
-        catalogsToolbar = (Toolbar) findViewById(R.id.catalogsToolbar);
-        setSupportActionBar(catalogsToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     @Override
     public void onDismiss(DialogInterface dialog) {
         mAdapter.refreshData();
@@ -94,6 +78,27 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     @Override
     public void onLongClick(Catalog catalog) {
         createSimpleAlertDialog(catalog);
+    }
+
+    @Override
+    public void onClick(Catalog catalog) {
+        Toast.makeText(this, catalog.getName(), Toast.LENGTH_LONG).show();
+    }
+
+    private void createRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.catalogsRecycler);
+        mAdapter = new CatalogsAdapter(this, CatalogsDataSource.getInstance().readCatalogs());
+
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(lm);
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    private void setToolbarView(){
+        catalogsToolbar = (Toolbar) findViewById(R.id.catalogsToolbar);
+        setSupportActionBar(catalogsToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void createSimpleAlertDialog(final Catalog catalog) {
@@ -117,8 +122,4 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
                 .show();
     }
 
-    @Override
-    public void onClick(Catalog catalog) {
-        Toast.makeText(this, catalog.getName(), Toast.LENGTH_LONG).show();
-    }
 }
