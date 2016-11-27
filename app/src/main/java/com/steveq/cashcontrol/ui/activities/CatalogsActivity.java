@@ -1,10 +1,13 @@
 package com.steveq.cashcontrol.ui.activities;
 
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.steveq.cashcontrol.R;
+import com.steveq.cashcontrol.adapters.CatalogsAdapter;
 import com.steveq.cashcontrol.controller.UserManager;
 import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.model.Catalog;
@@ -21,15 +25,29 @@ import com.steveq.cashcontrol.ui.fragments.CreateCatalogDialogFragment;
 
 import java.util.ArrayList;
 
-public class CatalogsActivity extends AppCompatActivity {
+public class CatalogsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener{
 
-    Toolbar catalogsToolbar;
+    private Toolbar catalogsToolbar;
+    private RecyclerView recyclerView;
+    private CatalogsAdapter mAdapter;
+    private CreateCatalogDialogFragment mCatalogDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalogs);
         setToolbarView();
+        createRecyclerView();
+    }
+
+    private void createRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.catalogsRecycler);
+        mAdapter = new CatalogsAdapter(CatalogsDataSource.getInstance().readCatalogs());
+
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(lm);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -47,6 +65,8 @@ public class CatalogsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        mCatalogDialogFragment = new CreateCatalogDialogFragment();
+
         switch (item.getItemId()){
 
             case android.R.id.home:
@@ -54,15 +74,15 @@ public class CatalogsActivity extends AppCompatActivity {
                 return true;
 
             case R.id.addCatalog:
-                new CreateCatalogDialogFragment()
-                        .show(getFragmentManager(), CreateCatalogDialogFragment.CREATE_CATALOG_TAG);
-
+                mCatalogDialogFragment.show(getFragmentManager(), CreateCatalogDialogFragment.CREATE_CATALOG_TAG);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
+
+
 
     private void setToolbarView(){
         catalogsToolbar = (Toolbar) findViewById(R.id.catalogsToolbar);
@@ -71,4 +91,11 @@ public class CatalogsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        //mAdapter.updateData(CatalogsDataSource.getInstance().readCatalogs());
+        mAdapter.setCatalogs(CatalogsDataSource.getInstance().readCatalogs());
+        mAdapter.notifyDataSetChanged();
+        //recyclerView.invalidate();
+    }
 }

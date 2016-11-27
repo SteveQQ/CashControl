@@ -6,10 +6,10 @@ public class Catalog {
     private int fkId;
     private String mName;
     private double mSum;
-    private int mStartTime;
-    private int mEndTime;
+    private long mStartTime;
+    private long mEndTime;
 
-    public Catalog(int mId, int fk, double sum, String name, int startTime, int endTime) {
+    public Catalog(int mId, int fk, double sum, String name, long startTime, long endTime) {
         this.mId = mId;
         fkId = fk;
         mSum = sum;
@@ -34,11 +34,11 @@ public class Catalog {
         return mName;
     }
 
-    public int getStartTime() {
+    public long getStartTime() {
         return mStartTime;
     }
 
-    public int getEndTime() {
+    public long getEndTime() {
         return mEndTime;
     }
 }

@@ -16,4 +16,11 @@
         android:theme="@style/AppThemeCompat"
         app:popupTheme="@style/AppThemeCompat"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/catalogsRecycler"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/catalogsToolbar"
+        android:scrollbars="vertical"/>
+
 </RelativeLayout>

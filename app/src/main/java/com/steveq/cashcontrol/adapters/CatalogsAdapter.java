@@ -8,23 +8,28 @@ import android.widget.TextView;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.model.Catalog;
+import com.steveq.cashcontrol.utilities.Converter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class CatalogsAdapter extends RecyclerView.Adapter<CatalogsAdapter.ViewHolder> {
 
     private ArrayList<Catalog> mCatalogs = null;
+    private Converter mConverter;
 
     public CatalogsAdapter(ArrayList<Catalog> catalogs) {
+        mCatalogs = catalogs;
+        mConverter = new Converter();
+    }
+
+    public void setCatalogs(ArrayList<Catalog> catalogs) {
         mCatalogs = catalogs;
     }
 
     @Override
     public CatalogsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.catalog_card, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.catalog_card, parent, false);
 
         return new ViewHolder(view);
     }
@@ -35,15 +40,10 @@ public class CatalogsAdapter extends RecyclerView.Adapter<CatalogsAdapter.ViewHo
         Catalog catalog = mCatalogs.get(position);
         holder.catalogName.setText(catalog.getName());
         holder.catalogSum.setText(Double.toString(catalog.getSum()));
-        String startRange = convertTimestamp(catalog.getStartTime());
-        String endRange = convertTimestamp(catalog.getEndTime());
-        holder.catalogDaterange.setText(String.format("From %s To %s", startRange, endRange));
+        holder.catalogDaterange.setText(String.format("From %s To %s",
+                                                        mConverter.timestampToString(catalog.getStartTime()),
+                                                        mConverter.timestampToString(catalog.getEndTime())));
 
-    }
-
-    private String convertTimestamp(int startTime) {
-        Date date = new Date(startTime);
-        return String.format("%02d/%02d/%d", date.getDay(), date.getMonth(), date.getYear());
     }
 
     @Override
@@ -64,6 +64,12 @@ public class CatalogsAdapter extends RecyclerView.Adapter<CatalogsAdapter.ViewHo
             catalogSum = (TextView) itemView.findViewById(R.id.catalogSumTextView);
             catalogDaterange = (TextView) itemView.findViewById(R.id.catalogDaterangeTextView);
         }
+    }
+
+    public void updateData(ArrayList<Catalog> freshData){
+        mCatalogs.clear();
+        mCatalogs.addAll(freshData);
+        notifyDataSetChanged();
     }
 
 }

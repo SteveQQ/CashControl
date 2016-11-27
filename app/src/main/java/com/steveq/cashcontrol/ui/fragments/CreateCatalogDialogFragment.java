@@ -1,5 +1,6 @@
 package com.steveq.cashcontrol.ui.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -15,15 +16,12 @@ import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.controller.UserManager;
 import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.model.Catalog;
+import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
+import com.steveq.cashcontrol.utilities.Converter;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-public class CreateCatalogDialogFragment extends DialogFragment {
+public class CreateCatalogDialogFragment extends DialogFragment{
 
     int curYear;
     int curMonth;
@@ -31,12 +29,14 @@ public class CreateCatalogDialogFragment extends DialogFragment {
     private EditText name;
     private EditText startDate;
     private EditText endDate;
+    private Converter mConverter;
     public static final String CREATE_CATALOG_TAG = "CREATE_CATALOG_TAG";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
+        mConverter = new Converter();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder
@@ -45,29 +45,14 @@ public class CreateCatalogDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        int startTimeStamp = 0;
-                        int endTimeStamp = 0;
-                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-                        try {
-                            Date startDateTime = dateFormat.parse(startDate.getText().toString());
-                            Date endDateTime = dateFormat.parse(endDate.getText().toString());
-                            long startTime = startDateTime.getTime();
-                            long endTime = endDateTime.getTime();
-                            startTimeStamp = (int)new Timestamp(startTime).getTime();
-                            endTimeStamp = (int)new Timestamp(endTime).getTime();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
                         CatalogsDataSource
                                 .getInstance()
                                 .createCatalog(new Catalog(-1,
                                                             UserManager.mCurrentUser.getId(),
                                                             0,
                                                             name.getText().toString(),
-                                                            startTimeStamp,
-                                                            endTimeStamp));
+                                                            mConverter.stringToTimestamp(startDate.getText().toString()),
+                                                            mConverter.stringToTimestamp(endDate.getText().toString())));
                     }
                 })
                 .setNegativeButton(R.string.back_button, new DialogInterface.OnClickListener() {
@@ -120,10 +105,18 @@ public class CreateCatalogDialogFragment extends DialogFragment {
         });
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        final Activity activity = getActivity();
+        if(activity instanceof DialogInterface.OnDismissListener){
+            ((DialogInterface.OnDismissListener)activity).onDismiss(dialog);
+        }
+    }
+
     protected class setDateListener implements DatePickerDialog.OnDateSetListener{
 
         private EditText field;
-
         public setDateListener(EditText field){
             this.field = field;
         }
