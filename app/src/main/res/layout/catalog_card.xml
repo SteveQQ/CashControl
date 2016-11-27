@@ -7,9 +7,9 @@
         android:id="@+id/catalogCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         app:cardCornerRadius="4dp"
         android:elevation="4dp"
         app:cardBackgroundColor="@color/material_light_blue_800">

@@ -37,4 +37,8 @@ public class DataSource {
         return cursor.getDouble(columnIndex);
     }
 
+    protected long getLongFromColumnName(Cursor cursor, String columnName){
+        int columnIndex = cursor.getColumnIndex(columnName);
+        return cursor.getLong(columnIndex);
+    }
 }

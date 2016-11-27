@@ -79,8 +79,8 @@ public class CatalogsDataSource extends DataSource{
                         getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_FK_USER),
                         getDoubleFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_SUM),
                         getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_NAME),
-                        getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE),
-                        getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE))
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE),
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE))
                         );
             }while(cursor.moveToNext());
         }

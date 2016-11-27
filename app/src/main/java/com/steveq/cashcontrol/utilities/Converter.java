@@ -14,7 +14,8 @@ public class Converter {
 
     public String timestampToString(long timestamp){
         Date date = new Date(timestamp);
-        return sdf.format(date);
+        String dateString = sdf.format(date);
+        return dateString;
     }
 
     public long stringToTimestamp(String input){

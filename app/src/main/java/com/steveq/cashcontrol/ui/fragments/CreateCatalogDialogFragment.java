@@ -123,9 +123,9 @@ public class CreateCatalogDialogFragment extends DialogFragment{
 
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            if ((year >= curYear &&
-                    month >= curMonth)) {
-                field.setText(String.format("%02d/%02d/%d", dayOfMonth, month, year));
+            int monthOffset = month + 1;
+            if (year >= curYear) {
+                field.setText(String.format("%02d/%02d/%d", dayOfMonth, monthOffset, year));
             } else {
                 field.setText(String.format("%02d/%02d/%d", curDay, curMonth, curYear));
             }
