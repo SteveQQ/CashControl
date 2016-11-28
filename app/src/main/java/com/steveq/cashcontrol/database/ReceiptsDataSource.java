@@ -9,6 +9,7 @@ import android.provider.BaseColumns;
 import com.steveq.cashcontrol.CashControlApplication;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Receipt;
+import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 
 import java.util.ArrayList;
 
@@ -63,7 +64,7 @@ public class ReceiptsDataSource extends DataSource {
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE,
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE,
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY},
-                null,
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalogId,
                 null,
                 null,
                 null,

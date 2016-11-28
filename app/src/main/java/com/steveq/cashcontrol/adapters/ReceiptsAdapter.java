@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.steveq.cashcontrol.R;
+import com.steveq.cashcontrol.database.CatalogsDataSource;
+import com.steveq.cashcontrol.database.ReceiptsDataSource;
 import com.steveq.cashcontrol.interfaces.ActionListener;
 import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
@@ -27,6 +29,13 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
         mConverter = new Converter();
     }
 
+    public void setReceipts(ArrayList<Receipt> receipts) {
+        mReceipts = receipts;
+    }
+    public void refreshData(){
+        setReceipts(ReceiptsDataSource.getInstance().readReceipts());
+        notifyDataSetChanged();
+    }
     @Override
     public ReceiptsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

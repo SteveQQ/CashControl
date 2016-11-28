@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
+import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
+import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.ui.fragments.CreateCatalogDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.CreateReceiptDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.QueriesFragment;
@@ -23,7 +25,7 @@ import com.steveq.cashcontrol.ui.fragments.ReportFragment;
 
 import java.util.ArrayList;
 
-public class ReceiptsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
+public class ReceiptsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, CatalogOnLongClickListener {
 
     private Toolbar receiptsToolbar;
     private ViewPager mViewPager;
@@ -43,7 +45,6 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
 
         setPagerView();
         setToolbarView();
-        //createRecyclerView();
 
     }
 
@@ -110,6 +111,11 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        //mAdapter.refreshData();
+        ((ReceiptsFragment)mFragments.get(0)).mAdapter.refreshData();
+    }
+
+    @Override
+    public void onLongClick(Catalog catalog) {
+        //TODO implement deleting receipt
     }
 }
