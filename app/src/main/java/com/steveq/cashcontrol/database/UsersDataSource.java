@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.provider.BaseColumns;
 
 import com.steveq.cashcontrol.model.User;
@@ -28,6 +29,7 @@ public class UsersDataSource extends DataSource{
         db.setTransactionSuccessful();
         db.endTransaction();
         close(db);
+
         return index;
     }
 
