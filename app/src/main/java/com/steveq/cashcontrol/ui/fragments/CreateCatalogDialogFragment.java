@@ -40,41 +40,6 @@ public class CreateCatalogDialogFragment extends DialogFragment{
     public static final String CREATE_CATALOG_TAG = "CREATE_CATALOG_TAG";
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        mConverter = new Converter();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder
-                .setView(inflater.inflate(R.layout.add_catalog_dialog, null))
-                .setPositiveButton(R.string.accept_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        CatalogsDataSource
-                                .getInstance()
-                                .createCatalog(new Catalog(-1,
-                                                            UserManager.mCurrentUser.getId(),
-                                                            0,
-                                                            name.getText().toString(),
-                                                            mConverter.stringToTimestamp(startDate.getText().toString()),
-                                                            mConverter.stringToTimestamp(endDate.getText().toString()),
-                                                            currencySpinner.getSelectedItem().toString()));
-                    }
-                })
-                .setNegativeButton(R.string.back_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CreateCatalogDialogFragment.this.getDialog().cancel();
-                    }
-                });
-
-
-        return builder.create();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
@@ -114,6 +79,44 @@ public class CreateCatalogDialogFragment extends DialogFragment{
 
         setSpinnerView();
     }
+
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        mConverter = new Converter();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder
+                .setView(inflater.inflate(R.layout.add_catalog_dialog, null))
+                .setPositiveButton(R.string.accept_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        CatalogsDataSource
+                                .getInstance()
+                                .createCatalog(new Catalog(-1,
+                                                            UserManager.mCurrentUser.getId(),
+                                                            0,
+                                                            name.getText().toString(),
+                                                            mConverter.stringToTimestamp(startDate.getText().toString()),
+                                                            mConverter.stringToTimestamp(endDate.getText().toString()),
+                                                            currencySpinner.getSelectedItem().toString()));
+                    }
+                })
+                .setNegativeButton(R.string.back_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CreateCatalogDialogFragment.this.getDialog().cancel();
+                    }
+                });
+
+
+        return builder.create();
+    }
+
+
 
     @Override
     public void onDismiss(DialogInterface dialog) {

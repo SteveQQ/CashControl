@@ -16,12 +16,20 @@
         android:text="@string/new_receipt"/>
 
     <EditText
-        android:id="@+id/catalogNameEditText"
+        android:id="@+id/receiptNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:inputType="text"
         android:hint="@string/receipt_name"/>
+
+    <EditText
+        android:id="@+id/priceEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:hint="@string/price_edit"/>
 
     <EditText
         android:id="@+id/dateEditText"

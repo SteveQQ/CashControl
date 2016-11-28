@@ -86,7 +86,7 @@ public class ReceiptsActivity extends AppCompatActivity {
                 return true;
 
             case R.id.addItem:
-                mReceiptDialogFragment.show(getFragmentManager(), CreateCatalogDialogFragment.CREATE_CATALOG_TAG);
+                mReceiptDialogFragment.show(getFragmentManager(), CreateReceiptDialogFragment.CREATE_RECEIPT_TAG);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

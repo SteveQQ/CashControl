@@ -16,7 +16,7 @@
         <item>EUR</item>
         <item>USD</item>
     </string-array>
-    <string-array name="category_spinner">
+    <string-array name="category_array">
         <item>Food</item>
         <item>Transport</item>
         <item>Entertainment</item>
@@ -29,4 +29,5 @@
     <string name="new_receipt">New Receipt</string>
     <string name="receipt_name">Receipt Name</string>
     <string name="date_edit">Date</string>
+    <string name="price_edit">Price</string>
 </resources>

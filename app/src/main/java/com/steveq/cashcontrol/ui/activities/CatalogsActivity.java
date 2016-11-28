@@ -28,6 +28,7 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     private CatalogsAdapter mAdapter;
     private CreateCatalogDialogFragment mCatalogDialogFragment;
     public static final String CATALOG_ID = "CATALOG_ID";
+    public static int currentCatalogId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,12 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
         setToolbarView();
         createRecyclerView();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        currentCatalogId = 0;
     }
 
     @Override
@@ -83,6 +90,7 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     @Override
     public void onClick(Catalog catalog) {
 
+        currentCatalogId = catalog.getId();
         Intent intent = new Intent(this, ReceiptsActivity.class);
         intent.putExtra(CATALOG_ID, catalog.getId());
         startActivity(intent);

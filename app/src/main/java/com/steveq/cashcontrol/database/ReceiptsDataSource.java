@@ -20,7 +20,7 @@ public class ReceiptsDataSource extends DataSource {
         super(context);
     }
 
-    public ReceiptsDataSource getInstance(){
+    public static ReceiptsDataSource getInstance(){
         if(instance == null){
             return new ReceiptsDataSource(CashControlApplication.getContext());
         } else {
