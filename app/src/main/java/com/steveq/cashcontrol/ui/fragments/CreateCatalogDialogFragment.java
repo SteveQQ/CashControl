@@ -115,6 +115,15 @@ public class CreateCatalogDialogFragment extends DialogFragment{
         setSpinnerView();
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        final Activity activity = getActivity();
+        if(activity instanceof DialogInterface.OnDismissListener){
+            ((DialogInterface.OnDismissListener)activity).onDismiss(dialog);
+        }
+    }
+
     private void setSpinnerView() {
         currencySpinner = (Spinner) getDialog().findViewById(R.id.currencySpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -124,13 +133,11 @@ public class CreateCatalogDialogFragment extends DialogFragment{
         currencySpinner.setAdapter(adapter);
     }
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        final Activity activity = getActivity();
-        if(activity instanceof DialogInterface.OnDismissListener){
-            ((DialogInterface.OnDismissListener)activity).onDismiss(dialog);
-        }
+    private void getCurDate(){
+        Calendar calendar = Calendar.getInstance();
+        curYear = calendar.get(Calendar.YEAR);
+        curMonth = calendar.get(Calendar.MONTH);
+        curDay = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     protected class setDateListener implements DatePickerDialog.OnDateSetListener{
@@ -152,10 +159,4 @@ public class CreateCatalogDialogFragment extends DialogFragment{
         }
     }
 
-    private void getCurDate(){
-        Calendar calendar = Calendar.getInstance();
-        curYear = calendar.get(Calendar.YEAR);
-        curMonth = calendar.get(Calendar.MONTH);
-        curDay = calendar.get(Calendar.DAY_OF_MONTH);
-    }
 }

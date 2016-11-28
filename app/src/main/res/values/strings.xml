@@ -16,7 +16,17 @@
         <item>EUR</item>
         <item>USD</item>
     </string-array>
+    <string-array name="category_spinner">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Entertainment</item>
+        <item>Bills</item>
+        <item>Others</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_receipt">New Receipt</string>
+    <string name="receipt_name">Receipt Name</string>
+    <string name="date_edit">Date</string>
 </resources>
