@@ -1,5 +1,6 @@
 package com.steveq.cashcontrol.ui.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -97,6 +98,16 @@ public class CreateReceiptDialogFragment extends DialogFragment {
                 });
 
         return builder.create();
+    }
+
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        final Activity activity = getActivity();
+        if(activity instanceof DialogInterface.OnDismissListener){
+            ((DialogInterface.OnDismissListener)activity).onDismiss(dialog);
+        }
     }
 
     private void setSpinnerView() {

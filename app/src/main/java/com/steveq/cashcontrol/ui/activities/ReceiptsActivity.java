@@ -1,6 +1,7 @@
 package com.steveq.cashcontrol.ui.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -22,7 +23,7 @@ import com.steveq.cashcontrol.ui.fragments.ReportFragment;
 
 import java.util.ArrayList;
 
-public class ReceiptsActivity extends AppCompatActivity {
+public class ReceiptsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
     private Toolbar receiptsToolbar;
     private ViewPager mViewPager;
@@ -36,12 +37,13 @@ public class ReceiptsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipts);
-        setToolbarView();
 
         Intent intent = getIntent();
         int id = intent.getIntExtra(CatalogsActivity.CATALOG_ID, -1);
 
         setPagerView();
+        setToolbarView();
+        //createRecyclerView();
 
     }
 
@@ -104,5 +106,10 @@ public class ReceiptsActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(mViewPager.getCurrentItem() == 0) super.onBackPressed();
             mViewPager.setCurrentItem(mViewPager.getCurrentItem()-1);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        //mAdapter.refreshData();
     }
 }

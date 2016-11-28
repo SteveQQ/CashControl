@@ -4,7 +4,10 @@ package com.steveq.cashcontrol.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +16,7 @@ import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
 
 public class ReceiptsFragment extends Fragment {
 
+    private RecyclerView mRecyclerView;
 
     public ReceiptsFragment() {
         Bundle bundle = new Bundle();
@@ -28,5 +32,4 @@ public class ReceiptsFragment extends Fragment {
         view.setTag("Receipts");
         return view;
     }
-
 }

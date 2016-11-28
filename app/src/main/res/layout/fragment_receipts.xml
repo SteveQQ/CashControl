@@ -5,11 +5,10 @@
              tools:context="com.steveq.cashcontrol.ui.fragments.ReceiptsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/receiptsRecycler"
         android:layout_height="match_parent"
-        android:text="RECEIPTS FRAGMENT"
-        android:textSize="36sp"
-        android:gravity="center"/>
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"/>
 
 </RelativeLayout>
