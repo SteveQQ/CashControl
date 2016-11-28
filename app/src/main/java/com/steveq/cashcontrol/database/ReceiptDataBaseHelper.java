@@ -24,6 +24,13 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
     public static final String COLUMN_CATALOGS_START_DATE = "START_DATE";
     public static final String COLUMN_CATALOGS_END_DATE = "END_DATE";
     public static final String COLUMN_CATALOGS_CURRENCY = "CURRENCY";
+    //RECEIPTS TABLE ATTRIBUTES
+    public static final String RECEIPTS_TABLE = "RECEIPTS";
+    public static final String COLUMN_RECEIPTS_FK_CATALOG = "FK_CATALOG";
+    public static final String COLUMN_RECEIPTS_NAME = "NAME";
+    public static final String COLUMN_RECEIPTS_PRICE = "PRICE";
+    public static final String COLUMN_RECEIPTS_DATE = "DATE";
+    public static final String COLUMN_RECEIPTS_CATEGORY = "CATEGORY";
 
     //DDL:
     //CREATE USERS TABLE
@@ -44,9 +51,16 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
                     COLUMN_CATALOGS_END_DATE + " INTEGER, " +
                     COLUMN_CATALOGS_CURRENCY + " TEXT, " +
                     "FOREIGN KEY (" + COLUMN_CATALOGS_FK_USER + ") REFERENCES USERS(_id)) ";
-
-
-
+    //CREATE RECEIPTS TABLE
+    private static String CREATE_RECEIPTS_TABLE =
+            "CREATE TABLE " + RECEIPTS_TABLE + " (" +
+                    BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_RECEIPTS_FK_CATALOG + " INTEGER, "+
+                    COLUMN_CATALOGS_NAME + " TEXT, " +
+                    COLUMN_RECEIPTS_PRICE + " REAL, " +
+                    COLUMN_RECEIPTS_DATE + " INTEGER, " +
+                    COLUMN_RECEIPTS_CATEGORY + " TEXT, " +
+                    "FOREIGN KEY (" + COLUMN_RECEIPTS_FK_CATALOG + ") REFERENCES CATALOGS(_id)) ";
 
     public ReceiptDataBaseHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -56,6 +70,7 @@ public class ReceiptDataBaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_CATALOGS_TABLE);
+        db.execSQL(CREATE_RECEIPTS_TABLE);
     }
 
     @Override
