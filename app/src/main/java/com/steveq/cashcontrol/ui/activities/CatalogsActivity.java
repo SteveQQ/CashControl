@@ -82,7 +82,11 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
 
     @Override
     public void onClick(Catalog catalog) {
-        Toast.makeText(this, catalog.getName(), Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, ReceiptsActivity.class);
+        intent.putExtra(CATALOG_ID, catalog.getId());
+        startActivity(intent);
+
     }
 
     private void createRecyclerView() {
