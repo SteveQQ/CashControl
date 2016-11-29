@@ -9,6 +9,7 @@
     <string name="catalog_dialog">New Catalog</string>
     <string name="start_date">Start Date</string>
     <string name="catalog_name">Name</string>
+    <string name="receipts_title">Receipts</string>
     <string name="end_date">End Date</string>
     <string name="accept_button">accept</string>
     <string name="back_button">back</string>

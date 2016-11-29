@@ -13,6 +13,7 @@ import com.steveq.cashcontrol.interfaces.ActionListener;
 import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Receipt;
+import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 import com.steveq.cashcontrol.utilities.Converter;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
 
         holder.receiptName.setText(receipt.getName());
         holder.receiptCategory.setText(receipt.getCategory());
+        holder.receiptPrice.setText(String.format("%.2f %s", receipt.getPrice(), CatalogsActivity.currentCatalog.getCurrency()));
         holder.receiptDate.setText(mConverter.timestampToString(receipt.getDate()));
 
     }
@@ -64,6 +66,7 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
 
         TextView receiptName;
         TextView receiptCategory;
+        TextView receiptPrice;
         TextView receiptDate;
 
         public ViewHolder(View itemView) {
@@ -71,6 +74,7 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
 
             receiptName = (TextView) itemView.findViewById(R.id.receiptNameTextView);
             receiptCategory = (TextView) itemView.findViewById(R.id.receiptCategoryTextView);
+            receiptPrice = (TextView) itemView.findViewById(R.id.receiptPriceTextView);
             receiptDate = (TextView) itemView.findViewById(R.id.receiptDateTextView);
         }
 

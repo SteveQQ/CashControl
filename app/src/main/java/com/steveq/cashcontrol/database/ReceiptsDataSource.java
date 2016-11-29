@@ -64,7 +64,7 @@ public class ReceiptsDataSource extends DataSource {
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE,
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE,
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY},
-                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalogId,
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalog.getId(),
                 null,
                 null,
                 null,

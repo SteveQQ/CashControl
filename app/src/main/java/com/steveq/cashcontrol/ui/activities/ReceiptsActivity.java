@@ -99,6 +99,7 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
         receiptsToolbar = (Toolbar) findViewById(R.id.receiptsToolbar);
         setSupportActionBar(receiptsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getResources().getString(R.string.receipts_title));
     }
 
     @Override
