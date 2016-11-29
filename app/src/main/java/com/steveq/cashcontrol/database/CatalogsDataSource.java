@@ -65,7 +65,7 @@ public class CatalogsDataSource extends DataSource{
                         ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE,
                         ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE,
                         ReceiptDataBaseHelper.COLUMN_CATALOGS_CURRENCY},
-                null,
+                ReceiptDataBaseHelper.COLUMN_CATALOGS_FK_USER + " = " + UserManager.mCurrentUser.getId(),
                 null,
                 null,
                 null,

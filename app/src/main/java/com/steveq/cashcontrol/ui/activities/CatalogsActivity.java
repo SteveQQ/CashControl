@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CatalogsAdapter;
@@ -19,7 +18,7 @@ import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.interfaces.CatalogOnClickListener;
 import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
-import com.steveq.cashcontrol.ui.fragments.CreateCatalogDialogFragment;
+import com.steveq.cashcontrol.ui.fragments.dialogs.CreateCatalogDialogFragment;
 
 public class CatalogsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, CatalogOnClickListener, CatalogOnLongClickListener {
 
@@ -111,6 +110,7 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
         catalogsToolbar = (Toolbar) findViewById(R.id.catalogsToolbar);
         setSupportActionBar(catalogsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getResources().getString(R.string.catalogs_title));
     }
 
     private void createSimpleAlertDialog(final Catalog catalog) {

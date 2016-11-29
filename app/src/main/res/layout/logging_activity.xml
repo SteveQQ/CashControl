@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="8dp">
     
     <ImageView
         android:id="@+id/iconImageView"
@@ -42,6 +42,18 @@
         android:textSize="24sp"
         android:hint="@string/user_password"/>
 
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordEditText"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:text="@string/log_in"
+        android:background="@drawable/rounded_button"/>
+
     <Button
         android:id="@+id/createButton"
         android:layout_width="match_parent"
@@ -52,16 +64,5 @@
         android:textSize="16sp"
         android:text="@string/create_acc"
         android:background="#00000000"/>
-
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/createButton"
-        android:layout_marginBottom="70dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:text="@string/log_in"
-        android:background="@drawable/rounded_button"/>
 
 </RelativeLayout>

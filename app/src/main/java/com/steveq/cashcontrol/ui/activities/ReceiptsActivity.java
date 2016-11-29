@@ -1,6 +1,5 @@
 package com.steveq.cashcontrol.ui.activities;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +16,7 @@ import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
 import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
-import com.steveq.cashcontrol.ui.fragments.CreateCatalogDialogFragment;
-import com.steveq.cashcontrol.ui.fragments.CreateReceiptDialogFragment;
+import com.steveq.cashcontrol.ui.fragments.dialogs.CreateReceiptDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.QueriesFragment;
 import com.steveq.cashcontrol.ui.fragments.ReceiptsFragment;
 import com.steveq.cashcontrol.ui.fragments.ReportFragment;
