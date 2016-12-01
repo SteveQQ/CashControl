@@ -18,12 +18,13 @@ import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 public class SimpleAlertDialogFragment extends DialogFragment {
 
     public static final String TAG = SimpleAlertDialogFragment.class.getSimpleName();
+    public static final String ITEM_KEY = "ITEM_KEY";
 
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final Item item = getArguments().getParcelable(CatalogsActivity.CATALOG_KEY);
+        final Item item = getArguments().getParcelable(ITEM_KEY);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DatePickerStyle);
         builder

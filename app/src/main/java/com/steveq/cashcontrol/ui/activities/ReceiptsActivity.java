@@ -17,6 +17,7 @@ import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
+import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.fragments.dialogs.CreateReceiptDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.QueriesFragment;
 import com.steveq.cashcontrol.ui.fragments.ReceiptsFragment;
@@ -25,7 +26,7 @@ import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 
 import java.util.ArrayList;
 
-public class ReceiptsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, ItemOnLongClickListener {
+public class ReceiptsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
     private Toolbar receiptsToolbar;
     private ViewPager mViewPager;
@@ -115,15 +116,4 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
         ((ReceiptsFragment)mFragments.get(0)).mAdapter.refreshData();
     }
 
-    @Override
-    public void onLongClick(Item item) {
-        //TODO implement deleting receipt
-//        SimpleAlertDialogFragment alertDialog = new SimpleAlertDialogFragment();
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelable();
-//
-//        alertDialog.show(getFragmentManager(), SimpleAlertDialogFragment.TAG);
-//        alertDialog.setArguments();
-    }
 }

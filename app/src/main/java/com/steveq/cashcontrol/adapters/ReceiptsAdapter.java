@@ -53,7 +53,7 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
         holder.receiptCategory.setText(receipt.getCategory());
         holder.receiptPrice.setText(String.format("%.2f %s", receipt.getPrice(), CatalogsActivity.currentCatalog.getCurrency()));
         holder.receiptDate.setText(mConverter.timestampToString(receipt.getDate()));
-
+        holder.bindLongListener(receipt, mLongListener);
     }
 
     @Override
@@ -77,11 +77,11 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
             receiptDate = (TextView) itemView.findViewById(R.id.receiptDateTextView);
         }
 
-        public void bindLongListener(final Catalog catalog, final ItemOnLongClickListener longListener) {
+        public void bindLongListener(final Receipt receipt, final ItemOnLongClickListener longListener) {
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    longListener.onLongClick(catalog);
+                    longListener.onLongClick(receipt);
                     return true;
                 }
             });

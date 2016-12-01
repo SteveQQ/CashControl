@@ -29,7 +29,6 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     private CatalogsAdapter mAdapter;
     private CreateCatalogDialogFragment mCatalogDialogFragment;
     public static final String CATALOG_ID = "CATALOG_ID";
-    public static final String CATALOG_KEY = "CATALOG_KEY";
     public static Catalog currentCatalog;
 
     @Override
@@ -91,17 +90,17 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
         alertDialog.show(getFragmentManager(), SimpleAlertDialogFragment.TAG);
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(CATALOG_KEY, catalog);
+        bundle.putParcelable(SimpleAlertDialogFragment.ITEM_KEY, catalog);
         alertDialog.setArguments(bundle);
     }
 
     @Override
     public void onClick(Item item) {
 
-//        currentCatalog = item;
-//        Intent intent = new Intent(this, ReceiptsActivity.class);
-//        intent.putExtra(CATALOG_ID, item.getId());
-//        startActivity(intent);
+        currentCatalog = (Catalog)item;
+        Intent intent = new Intent(this, ReceiptsActivity.class);
+        intent.putExtra(CATALOG_ID, item.getId());
+        startActivity(intent);
 
     }
 
@@ -120,28 +119,6 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
         setSupportActionBar(catalogsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.catalogs_title));
-    }
-
-    private void createSimpleAlertDialog(final Catalog catalog) {
-
-//        AlertDialog.Builder simpleAlertBuilder = new AlertDialog.Builder(this, R.style.DatePickerStyle);
-//
-//        simpleAlertBuilder
-//                .setMessage("Are you sure deleting catalog?")
-//                .setPositiveButton("Yeah!", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        CatalogsDataSource.getInstance().deleteCatalog(catalog);
-//                        mAdapter.refreshData();
-//                    }
-//                })
-//                .setNegativeButton("Nope...", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        //intentionally empty
-//                    }
-//                })
-//                .show();
     }
 
 }

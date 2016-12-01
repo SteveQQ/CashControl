@@ -16,7 +16,9 @@ import com.steveq.cashcontrol.database.ReceiptsDataSource;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
+import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
+import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 
 public class ReceiptsFragment extends Fragment implements ItemOnLongClickListener {
 
@@ -32,7 +34,6 @@ public class ReceiptsFragment extends Fragment implements ItemOnLongClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_receipts, container, false);
         createRecyclerView(view);
 
@@ -42,7 +43,7 @@ public class ReceiptsFragment extends Fragment implements ItemOnLongClickListene
 
     private void createRecyclerView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.receiptsRecycler);
-        mAdapter = new ReceiptsAdapter((ItemOnLongClickListener)getActivity(), ReceiptsDataSource.getInstance().readReceipts());
+        mAdapter = new ReceiptsAdapter(this, ReceiptsDataSource.getInstance().readReceipts());
 
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getActivity());
@@ -52,6 +53,14 @@ public class ReceiptsFragment extends Fragment implements ItemOnLongClickListene
 
     @Override
     public void onLongClick(Item item) {
-        //ReceiptsDataSource.getInstance().deleteReceipt();
+
+        Receipt receipt = (Receipt) item;
+        SimpleAlertDialogFragment alertDialog = new SimpleAlertDialogFragment();
+        alertDialog.show(getActivity().getFragmentManager(), SimpleAlertDialogFragment.TAG);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SimpleAlertDialogFragment.ITEM_KEY, receipt);
+        alertDialog.setArguments(bundle);
+
     }
 }
