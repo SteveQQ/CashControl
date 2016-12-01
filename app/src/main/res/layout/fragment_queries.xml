@@ -1,15 +1,80 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+              android:padding="8dp"
+              android:orientation="vertical"
              tools:context="com.steveq.cashcontrol.ui.fragments.QueriesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="QUERIES FRAGMENT"
-        android:textSize="36sp"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <RadioButton
+            android:id="@+id/selectAllRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_all"
+            android:layout_marginTop="12dp"/>
+
+        <RadioButton
+            android:id="@+id/selectBiggestPriceRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_biggest_price"
+            android:layout_marginTop="12dp"/>
+
+        <RadioButton
+            android:id="@+id/sortByPriceRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_price"
+            android:layout_marginTop="12dp"/>
+
+        <RadioButton
+            android:id="@+id/sortByNameRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_name"
+            android:layout_marginTop="12dp"/>
+
+        <RadioButton
+            android:id="@+id/sortCategoryRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_category"
+            android:layout_marginTop="12dp"/>
+
+        <RadioButton
+            android:id="@+id/selectCategoryRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_category"
+            android:layout_marginTop="12dp"/>
+    </RadioGroup>
+
+    <Spinner
+        android:id="@+id/categoryInputSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"/>
+
+    <RadioGroup
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/selectNameRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_name"/>
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/nameInputEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:hint="@string/receipt_name"/>
+
+</LinearLayout>
