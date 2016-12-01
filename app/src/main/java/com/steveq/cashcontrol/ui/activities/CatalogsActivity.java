@@ -15,18 +15,21 @@ import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CatalogsAdapter;
 import com.steveq.cashcontrol.controller.UserManager;
 import com.steveq.cashcontrol.database.CatalogsDataSource;
-import com.steveq.cashcontrol.interfaces.CatalogOnClickListener;
-import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
+import com.steveq.cashcontrol.interfaces.ItemOnClickListener;
+import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
+import com.steveq.cashcontrol.model.Item;
 import com.steveq.cashcontrol.ui.fragments.dialogs.CreateCatalogDialogFragment;
+import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 
-public class CatalogsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, CatalogOnClickListener, CatalogOnLongClickListener {
+public class CatalogsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, ItemOnClickListener, ItemOnLongClickListener {
 
     private Toolbar catalogsToolbar;
     private RecyclerView recyclerView;
     private CatalogsAdapter mAdapter;
     private CreateCatalogDialogFragment mCatalogDialogFragment;
     public static final String CATALOG_ID = "CATALOG_ID";
+    public static final String CATALOG_KEY = "CATALOG_KEY";
     public static Catalog currentCatalog;
 
     @Override
@@ -82,17 +85,23 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     }
 
     @Override
-    public void onLongClick(Catalog catalog) {
-        createSimpleAlertDialog(catalog);
+    public void onLongClick(Item item) {
+        Catalog catalog = (Catalog) item;
+        SimpleAlertDialogFragment alertDialog = new SimpleAlertDialogFragment();
+        alertDialog.show(getFragmentManager(), SimpleAlertDialogFragment.TAG);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(CATALOG_KEY, catalog);
+        alertDialog.setArguments(bundle);
     }
 
     @Override
-    public void onClick(Catalog catalog) {
+    public void onClick(Item item) {
 
-        currentCatalog = catalog;
-        Intent intent = new Intent(this, ReceiptsActivity.class);
-        intent.putExtra(CATALOG_ID, catalog.getId());
-        startActivity(intent);
+//        currentCatalog = item;
+//        Intent intent = new Intent(this, ReceiptsActivity.class);
+//        intent.putExtra(CATALOG_ID, item.getId());
+//        startActivity(intent);
 
     }
 
@@ -114,24 +123,25 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     }
 
     private void createSimpleAlertDialog(final Catalog catalog) {
-        AlertDialog.Builder simpleAlertBuilder = new AlertDialog.Builder(this, R.style.DatePickerStyle);
 
-        simpleAlertBuilder
-                .setMessage("Are you sure deleting catalog?")
-                .setPositiveButton("Yeah!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CatalogsDataSource.getInstance().deleteCatalog(catalog);
-                        mAdapter.refreshData();
-                    }
-                })
-                .setNegativeButton("Nope...", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //intentionally empty
-                    }
-                })
-                .show();
+//        AlertDialog.Builder simpleAlertBuilder = new AlertDialog.Builder(this, R.style.DatePickerStyle);
+//
+//        simpleAlertBuilder
+//                .setMessage("Are you sure deleting catalog?")
+//                .setPositiveButton("Yeah!", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        CatalogsDataSource.getInstance().deleteCatalog(catalog);
+//                        mAdapter.refreshData();
+//                    }
+//                })
+//                .setNegativeButton("Nope...", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //intentionally empty
+//                    }
+//                })
+//                .show();
     }
 
 }

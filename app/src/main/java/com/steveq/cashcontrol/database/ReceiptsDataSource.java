@@ -90,4 +90,22 @@ public class ReceiptsDataSource extends DataSource {
         close(db);
         return receipts;
     }
+
+    public void deleteReceipt(Receipt receipt){
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        db.delete(
+                ReceiptDataBaseHelper.RECEIPTS_TABLE,
+                BaseColumns._ID + " = " + receipt.getId(),
+                null
+        );
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
 }

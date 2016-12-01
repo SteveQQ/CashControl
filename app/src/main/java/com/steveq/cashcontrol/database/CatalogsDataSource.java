@@ -34,8 +34,8 @@ public class CatalogsDataSource extends DataSource{
         db.beginTransaction();
 
         ContentValues catalogValues = new ContentValues();
-        catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_FK_USER, catalog.getFkId());
-        catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_SUM, catalog.getSum());
+        catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_FK_USER, catalog.getFk());
+        catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_SUM, catalog.getPrice());
         catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_NAME, catalog.getName());
         catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE, catalog.getStartTime());
         catalogValues.put(ReceiptDataBaseHelper.COLUMN_CATALOGS_END_DATE, catalog.getEndTime());

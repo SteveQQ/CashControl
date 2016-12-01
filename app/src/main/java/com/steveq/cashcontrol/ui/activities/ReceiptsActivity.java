@@ -14,16 +14,18 @@ import android.view.MenuItem;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
-import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
+import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
+import com.steveq.cashcontrol.model.Item;
 import com.steveq.cashcontrol.ui.fragments.dialogs.CreateReceiptDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.QueriesFragment;
 import com.steveq.cashcontrol.ui.fragments.ReceiptsFragment;
 import com.steveq.cashcontrol.ui.fragments.ReportFragment;
+import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 
 import java.util.ArrayList;
 
-public class ReceiptsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, CatalogOnLongClickListener {
+public class ReceiptsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, ItemOnLongClickListener {
 
     private Toolbar receiptsToolbar;
     private ViewPager mViewPager;
@@ -114,7 +116,14 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
     }
 
     @Override
-    public void onLongClick(Catalog catalog) {
+    public void onLongClick(Item item) {
         //TODO implement deleting receipt
+//        SimpleAlertDialogFragment alertDialog = new SimpleAlertDialogFragment();
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable();
+//
+//        alertDialog.show(getFragmentManager(), SimpleAlertDialogFragment.TAG);
+//        alertDialog.setArguments();
     }
 }

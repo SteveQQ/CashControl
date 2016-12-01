@@ -2,25 +2,23 @@ package com.steveq.cashcontrol.ui.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.steveq.cashcontrol.R;
-import com.steveq.cashcontrol.adapters.CatalogsAdapter;
 import com.steveq.cashcontrol.adapters.ReceiptsAdapter;
-import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.database.ReceiptsDataSource;
-import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
+import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
+import com.steveq.cashcontrol.model.Catalog;
+import com.steveq.cashcontrol.model.Item;
 import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
 
-public class ReceiptsFragment extends Fragment {
+public class ReceiptsFragment extends Fragment implements ItemOnLongClickListener {
 
     private RecyclerView mRecyclerView;
     public ReceiptsAdapter mAdapter;
@@ -44,11 +42,16 @@ public class ReceiptsFragment extends Fragment {
 
     private void createRecyclerView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.receiptsRecycler);
-        mAdapter = new ReceiptsAdapter((CatalogOnLongClickListener)getActivity(), ReceiptsDataSource.getInstance().readReceipts());
+        mAdapter = new ReceiptsAdapter((ItemOnLongClickListener)getActivity(), ReceiptsDataSource.getInstance().readReceipts());
 
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(lm);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onLongClick(Item item) {
+        //ReceiptsDataSource.getInstance().deleteReceipt();
     }
 }

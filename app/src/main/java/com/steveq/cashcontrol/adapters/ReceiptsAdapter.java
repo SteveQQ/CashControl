@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.steveq.cashcontrol.R;
-import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.database.ReceiptsDataSource;
 import com.steveq.cashcontrol.interfaces.ActionListener;
-import com.steveq.cashcontrol.interfaces.CatalogOnLongClickListener;
+import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
@@ -20,12 +19,12 @@ import java.util.ArrayList;
 
 public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHolder> {
 
-    private final CatalogOnLongClickListener mLongListener;
+    private final ItemOnLongClickListener mLongListener;
     private ArrayList<Receipt> mReceipts = null;
     private Converter mConverter;
 
     public ReceiptsAdapter(ActionListener longListener, ArrayList<Receipt> receipts) {
-        mLongListener = (CatalogOnLongClickListener)longListener;
+        mLongListener = (ItemOnLongClickListener)longListener;
         mReceipts = receipts;
         mConverter = new Converter();
     }
@@ -78,7 +77,7 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
             receiptDate = (TextView) itemView.findViewById(R.id.receiptDateTextView);
         }
 
-        public void bindLongListener(final Catalog catalog, final CatalogOnLongClickListener longListener) {
+        public void bindLongListener(final Catalog catalog, final ItemOnLongClickListener longListener) {
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

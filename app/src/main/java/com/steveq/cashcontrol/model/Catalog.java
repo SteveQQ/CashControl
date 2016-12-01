@@ -1,39 +1,32 @@
 package com.steveq.cashcontrol.model;
 
-public class Catalog {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    private int mId;
-    private int fkId;
-    private String mName;
-    private double mSum;
+public class Catalog extends Item implements Parcelable{
+
     private long mStartTime;
     private long mEndTime;
     private String mCurrency;
 
-    public Catalog(int mId, int fk, double sum, String name, long startTime, long endTime, String currency) {
-        this.mId = mId;
-        fkId = fk;
-        mSum = sum;
+    public Catalog(int id, int fk, double price, String name, long startTime, long endTime, String currency) {
+        mId = id;
+        mFk = fk;
+        mPrice = price;
         mName = name;
         mStartTime = startTime;
         mEndTime = endTime;
         mCurrency = currency;
     }
 
-    public int getId() {
-        return mId;
-    }
-
-    public int getFkId() {
-        return fkId;
-    }
-
-    public double getSum() {
-        return mSum;
-    }
-
-    public String getName() {
-        return mName;
+    protected Catalog(Parcel in) {
+        mId = in.readInt();
+        mFk = in.readInt();
+        mPrice = in.readDouble();
+        mName = in.readString();
+        mStartTime = in.readLong();
+        mEndTime = in.readLong();
+        mCurrency = in.readString();
     }
 
     public long getStartTime() {
@@ -47,4 +40,32 @@ public class Catalog {
     public String getCurrency() {
         return mCurrency;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeInt(mFk);
+        dest.writeDouble(mPrice);
+        dest.writeString(mName);
+        dest.writeLong(mStartTime);
+        dest.writeLong(mEndTime);
+        dest.writeString(mCurrency);
+    }
+
+    public static final Creator<Catalog> CREATOR = new Creator<Catalog>() {
+        @Override
+        public Catalog createFromParcel(Parcel in) {
+            return new Catalog(in);
+        }
+
+        @Override
+        public Catalog[] newArray(int size) {
+            return new Catalog[size];
+        }
+    };
 }
