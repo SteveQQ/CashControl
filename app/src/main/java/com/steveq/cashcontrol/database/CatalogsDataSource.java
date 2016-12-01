@@ -69,7 +69,7 @@ public class CatalogsDataSource extends DataSource{
                 null,
                 null,
                 null,
-                null,
+                ReceiptDataBaseHelper.COLUMN_CATALOGS_START_DATE + " ASC",
                 null
         );
 

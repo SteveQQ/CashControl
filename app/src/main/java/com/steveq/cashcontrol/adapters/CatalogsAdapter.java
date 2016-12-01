@@ -51,7 +51,7 @@ public class CatalogsAdapter extends RecyclerView.Adapter<CatalogsAdapter.ViewHo
 
         Catalog catalog = mCatalogs.get(position);
         holder.catalogName.setText(catalog.getName());
-        holder.catalogSum.setText(String.format("%s  %s", Double.toString(catalog.getPrice()), catalog.getCurrency()));
+        holder.catalogSum.setText(String.format("%.2f  %s", catalog.getPrice(), catalog.getCurrency()));
         holder.catalogDaterange.setText(String.format("From  %s  To  %s",
                                                         mConverter.timestampToString(catalog.getStartTime()),
                                                         mConverter.timestampToString(catalog.getEndTime())));

@@ -68,7 +68,7 @@ public class ReceiptsDataSource extends DataSource {
                 null,
                 null,
                 null,
-                null,
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE + " ASC",
                 null
         );
 
@@ -106,6 +106,24 @@ public class ReceiptsDataSource extends DataSource {
         db.endTransaction();
         db.close();
 
+    }
+
+    public double priceSum(){
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        double result = 0;
+
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT SUM(" + ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE + ") FROM " + ReceiptDataBaseHelper.RECEIPTS_TABLE, null);
+
+        if(cursor.moveToFirst()){
+            result = cursor.getDouble(0);
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        return result;
     }
 
 }

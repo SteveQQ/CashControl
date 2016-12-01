@@ -43,7 +43,7 @@ public class ReceiptsFragment extends Fragment implements ItemOnLongClickListene
 
     private void createRecyclerView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.receiptsRecycler);
-        mAdapter = new ReceiptsAdapter(this, ReceiptsDataSource.getInstance().readReceipts());
+        mAdapter = new ReceiptsAdapter(this);
 
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getActivity());

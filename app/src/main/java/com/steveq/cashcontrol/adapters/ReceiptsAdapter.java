@@ -23,10 +23,10 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
     private ArrayList<Receipt> mReceipts = null;
     private Converter mConverter;
 
-    public ReceiptsAdapter(ActionListener longListener, ArrayList<Receipt> receipts) {
+    public ReceiptsAdapter(ActionListener longListener) {
         mLongListener = (ItemOnLongClickListener)longListener;
-        mReceipts = receipts;
         mConverter = new Converter();
+        refreshData();
     }
 
     public void setReceipts(ArrayList<Receipt> receipts) {

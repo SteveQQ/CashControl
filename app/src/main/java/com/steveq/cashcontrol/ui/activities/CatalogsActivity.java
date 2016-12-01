@@ -44,6 +44,7 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     protected void onResume() {
         super.onResume();
         currentCatalog = null;
+        mAdapter.refreshData();
     }
 
     @Override

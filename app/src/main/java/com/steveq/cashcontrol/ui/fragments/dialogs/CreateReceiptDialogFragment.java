@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.steveq.cashcontrol.R;
+import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.database.ReceiptsDataSource;
 import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
@@ -64,6 +66,10 @@ public class CreateReceiptDialogFragment extends FormDialogFragment {
                                             mConverter.stringToTimestamp(dateEditText.getText().toString()),
                                             categorySpinner.getSelectedItem().toString())
                                     );
+                            double p = ReceiptsDataSource
+                                    .getInstance()
+                                    .priceSum();
+                            CatalogsDataSource.getInstance().updateCatalogSum(CatalogsActivity.currentCatalog, p);
                             mAlertDialog.dismiss();
                         } else {
                             Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_LONG).show();

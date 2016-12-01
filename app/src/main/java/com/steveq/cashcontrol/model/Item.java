@@ -24,4 +24,8 @@ public class Item {
     public double getPrice() {
         return mPrice;
     }
+
+    public void setPrice(double price) {
+        mPrice = price;
+    }
 }

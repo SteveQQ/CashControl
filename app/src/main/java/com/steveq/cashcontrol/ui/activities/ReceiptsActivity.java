@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
+import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
@@ -102,7 +103,10 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
         receiptsToolbar = (Toolbar) findViewById(R.id.receiptsToolbar);
         setSupportActionBar(receiptsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getResources().getString(R.string.receipts_title));
+        getSupportActionBar().setTitle(String.format("%s  -  %.2f %s",
+                                                        getResources().getString(R.string.receipts_title),
+                                                        CatalogsActivity.currentCatalog.getPrice(),
+                                                        CatalogsActivity.currentCatalog.getCurrency()));
     }
 
     @Override
