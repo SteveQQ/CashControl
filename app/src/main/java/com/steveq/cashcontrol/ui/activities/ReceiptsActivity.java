@@ -20,6 +20,7 @@ import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
 import com.steveq.cashcontrol.controller.QueriesController;
 import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.database.commands.CommadSelectAll;
+import com.steveq.cashcontrol.database.commands.CommandSelectBiggestPrice;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
@@ -42,7 +43,8 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
     public static final String FRAGMENT_NAME = "fragment_name";
     private CreateReceiptDialogFragment mReceiptDialogFragment;
     public QueriesController mQueriesController;
-    private CommadSelectAll mCommadSelectAll;
+    public CommadSelectAll mCommadSelectAll;
+    public CommandSelectBiggestPrice mCommandSelectBiggestPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
     }
     private void createQueries() {
         mCommadSelectAll = new CommadSelectAll();
+        mCommandSelectBiggestPrice = new CommandSelectBiggestPrice();
     }
 
     private void setPagerView() {

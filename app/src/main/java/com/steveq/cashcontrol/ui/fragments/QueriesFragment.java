@@ -37,17 +37,19 @@ public class QueriesFragment extends Fragment {
 
         mainRadioGroup = (RadioGroup) view.findViewById(R.id.mainRadioGroup);
         mainRadioGroup.check(R.id.selectAllRadio);
-        mainRadioGroup.setOnClickListener(new View.OnClickListener() {
+        mainRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int id = mainRadioGroup.getCheckedRadioButtonId();
+                ReceiptsActivity activity = (ReceiptsActivity)getActivity();
                 switch(id){
 
                     case R.id.selectAllRadio:
+                        activity.mQueriesController.setQueryCommands(activity.mCommadSelectAll);
                         break;
 
                     case R.id.selectBiggestPriceRadio:
+                        activity.mQueriesController.setQueryCommands(activity.mCommandSelectBiggestPrice);
                         break;
 
                     case R.id.sortByPriceRadio:
@@ -62,7 +64,6 @@ public class QueriesFragment extends Fragment {
                     case R.id.selectCategoryRadio:
                         break;
                 }
-
             }
         });
 

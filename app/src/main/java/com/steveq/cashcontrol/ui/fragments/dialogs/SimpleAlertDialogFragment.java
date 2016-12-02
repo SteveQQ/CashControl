@@ -15,6 +15,8 @@ import com.steveq.cashcontrol.model.Item;
 import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 
+import java.util.ArrayList;
+
 public class SimpleAlertDialogFragment extends DialogFragment {
 
     public static final String TAG = SimpleAlertDialogFragment.class.getSimpleName();
@@ -33,6 +35,10 @@ public class SimpleAlertDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(item instanceof Catalog) {
+                            ArrayList<Receipt> receipts = ReceiptsDataSource.getInstance().readReceipts(((Catalog)item).getId());
+                            for(Receipt rec : receipts){
+                                ReceiptsDataSource.getInstance().deleteReceipt(rec);
+                            }
                             CatalogsDataSource.getInstance().deleteCatalog((Catalog)item);
                         } else if (item instanceof Receipt){
                             ReceiptsDataSource.getInstance().deleteReceipt((Receipt)item);

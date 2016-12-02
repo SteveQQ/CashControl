@@ -10,6 +10,7 @@ import com.steveq.cashcontrol.CashControlApplication;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
+import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
 
 import java.util.ArrayList;
 
@@ -51,7 +52,7 @@ public class ReceiptsDataSource extends DataSource {
         db.endTransaction();
     }
 
-    public ArrayList<Receipt> readReceipts(){
+    public ArrayList<Receipt> readReceipts(int catalogId){
 
         SQLiteDatabase db = open();
         db.beginTransaction();
@@ -64,7 +65,7 @@ public class ReceiptsDataSource extends DataSource {
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE,
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE,
                         ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY},
-                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalog.getId(),
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + catalogId,
                 null,
                 null,
                 null,
@@ -123,6 +124,41 @@ public class ReceiptsDataSource extends DataSource {
 
         if(cursor.moveToFirst()){
             result = cursor.getDouble(0);
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        return result;
+    }
+
+    public ArrayList<Receipt> selectBiggestPrice(){
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        ArrayList<Receipt> result = new ArrayList<>();
+        Cursor cursor1 = db.rawQuery("SELECT " +
+                                    "MAX(" + ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE + ")"+
+                                    " FROM " + ReceiptDataBaseHelper.RECEIPTS_TABLE +
+                                    " WHERE " + ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG +
+                                    " = " + CatalogsActivity.currentCatalog.getId(), null);
+
+        Cursor cursor2 = null;
+        if(cursor1.moveToFirst()) {
+            cursor2 = db.rawQuery("SELECT * FROM " + ReceiptDataBaseHelper.RECEIPTS_TABLE +
+                    " WHERE " + ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE +
+                    " = " + cursor1.getDouble(0), null);
+        }
+
+        if(cursor2.moveToFirst()){
+            do {
+                result.add(new Receipt(getIntegerFromColumnName(cursor2, BaseColumns._ID),
+                        getIntegerFromColumnName(cursor2, ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG),
+                        getStringFromColumnName(cursor2, ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME),
+                        getDoubleFromColumnName(cursor2, ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE),
+                        getLongFromColumnName(cursor2, ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE),
+                        getStringFromColumnName(cursor2, ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY)
+                ));
+            }while(cursor2.moveToNext());
         }
 
         db.setTransactionSuccessful();
