@@ -36,6 +36,11 @@ public class SimpleAlertDialogFragment extends DialogFragment {
                             CatalogsDataSource.getInstance().deleteCatalog((Catalog)item);
                         } else if (item instanceof Receipt){
                             ReceiptsDataSource.getInstance().deleteReceipt((Receipt)item);
+                            double p = ReceiptsDataSource
+                                    .getInstance()
+                                    .priceSum();
+                            CatalogsDataSource.getInstance().updateCatalogSum(CatalogsActivity.currentCatalog, p);
+                            CatalogsActivity.currentCatalog.setPrice(p);
                         }
                     }
                 })

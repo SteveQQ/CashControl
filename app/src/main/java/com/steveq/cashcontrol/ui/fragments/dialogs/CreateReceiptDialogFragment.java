@@ -70,6 +70,7 @@ public class CreateReceiptDialogFragment extends FormDialogFragment {
                                     .getInstance()
                                     .priceSum();
                             CatalogsDataSource.getInstance().updateCatalogSum(CatalogsActivity.currentCatalog, p);
+                            CatalogsActivity.currentCatalog.setPrice(p);
                             mAlertDialog.dismiss();
                         } else {
                             Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_LONG).show();

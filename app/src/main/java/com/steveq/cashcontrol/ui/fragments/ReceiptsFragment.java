@@ -12,7 +12,9 @@ import android.widget.AdapterView;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.ReceiptsAdapter;
+import com.steveq.cashcontrol.controller.QueriesController;
 import com.steveq.cashcontrol.database.ReceiptsDataSource;
+import com.steveq.cashcontrol.database.commands.CommadSelectAll;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
@@ -24,6 +26,7 @@ public class ReceiptsFragment extends Fragment implements ItemOnLongClickListene
 
     private RecyclerView mRecyclerView;
     public ReceiptsAdapter mAdapter;
+
 
     public ReceiptsFragment() {
         Bundle bundle = new Bundle();
@@ -40,10 +43,9 @@ public class ReceiptsFragment extends Fragment implements ItemOnLongClickListene
         return view;
     }
 
-
     private void createRecyclerView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.receiptsRecycler);
-        mAdapter = new ReceiptsAdapter(this);
+        mAdapter = new ReceiptsAdapter(this,((ReceiptsActivity)getActivity()).mQueriesController.commandExecute());
 
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getActivity());

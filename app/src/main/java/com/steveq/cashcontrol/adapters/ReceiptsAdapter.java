@@ -23,17 +23,17 @@ public class ReceiptsAdapter extends RecyclerView.Adapter<ReceiptsAdapter.ViewHo
     private ArrayList<Receipt> mReceipts = null;
     private Converter mConverter;
 
-    public ReceiptsAdapter(ActionListener longListener) {
+    public ReceiptsAdapter(ActionListener longListener, ArrayList<Receipt> data) {
         mLongListener = (ItemOnLongClickListener)longListener;
         mConverter = new Converter();
-        refreshData();
+        refreshData(data);
     }
 
     public void setReceipts(ArrayList<Receipt> receipts) {
         mReceipts = receipts;
     }
-    public void refreshData(){
-        setReceipts(ReceiptsDataSource.getInstance().readReceipts());
+    public void refreshData(ArrayList<Receipt> data){
+        setReceipts(data);
         notifyDataSetChanged();
     }
     @Override

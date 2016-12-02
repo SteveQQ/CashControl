@@ -9,12 +9,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
+import com.steveq.cashcontrol.controller.QueriesController;
 import com.steveq.cashcontrol.database.CatalogsDataSource;
+import com.steveq.cashcontrol.database.commands.CommadSelectAll;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
@@ -36,29 +41,57 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
     private FragmentPagerAdapter mPagerAdapter;
     public static final String FRAGMENT_NAME = "fragment_name";
     private CreateReceiptDialogFragment mReceiptDialogFragment;
+    public QueriesController mQueriesController;
+    private CommadSelectAll mCommadSelectAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipts);
+        mQueriesController = new QueriesController();
 
         Intent intent = getIntent();
         int id = intent.getIntExtra(CatalogsActivity.CATALOG_ID, -1);
 
-        setPagerView();
         setToolbarView();
+        createQueries();
+        setPagerView();
 
+    }
+    private void createQueries() {
+        mCommadSelectAll = new CommadSelectAll();
     }
 
     private void setPagerView() {
         mFragments = getFragments();
 
+        mQueriesController.setQueryCommands(mCommadSelectAll);
         mPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), mFragments);
         mViewPager = (ViewPager) findViewById(R.id.receiptsPager);
         mViewPager.setAdapter(mPagerAdapter);
 
         mTabLayout = (TabLayout) findViewById(R.id.receiptsTab);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Toast.makeText(ReceiptsActivity.this, Integer.toString(position), Toast.LENGTH_LONG).show();
+                if(position == 0) {
+                    ((ReceiptsFragment) mFragments.get(position)).mAdapter.refreshData(mQueriesController.commandExecute());
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private ArrayList<Fragment> getFragments() {
@@ -117,7 +150,11 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        ((ReceiptsFragment)mFragments.get(0)).mAdapter.refreshData();
+        ((ReceiptsFragment)mFragments.get(0)).mAdapter.refreshData(mQueriesController.commandExecute());
+        Log.d("DEBUG", Double.toString(CatalogsActivity.currentCatalog.getPrice()));
+        setToolbarView();
     }
+
+
 
 }

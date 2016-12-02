@@ -115,7 +115,11 @@ public class ReceiptsDataSource extends DataSource {
         double result = 0;
 
         Cursor cursor;
-        cursor = db.rawQuery("SELECT SUM(" + ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE + ") FROM " + ReceiptDataBaseHelper.RECEIPTS_TABLE, null);
+        cursor = db.rawQuery("SELECT SUM(" +
+                            ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE + ") FROM " +
+                            ReceiptDataBaseHelper.RECEIPTS_TABLE +
+                            " WHERE " +
+                            ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalog.getId(), null);
 
         if(cursor.moveToFirst()){
             result = cursor.getDouble(0);
