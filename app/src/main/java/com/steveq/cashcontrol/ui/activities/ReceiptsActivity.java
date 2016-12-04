@@ -12,24 +12,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CustomPagerAdapter;
 import com.steveq.cashcontrol.controller.QueriesController;
-import com.steveq.cashcontrol.database.CatalogsDataSource;
-import com.steveq.cashcontrol.database.commands.CommadSelectAll;
+import com.steveq.cashcontrol.database.commands.CommandSelectAll;
 import com.steveq.cashcontrol.database.commands.CommandSelectBiggestPrice;
-import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
-import com.steveq.cashcontrol.model.Catalog;
-import com.steveq.cashcontrol.model.Item;
-import com.steveq.cashcontrol.model.Receipt;
+import com.steveq.cashcontrol.database.commands.CommandSelectCategory;
+import com.steveq.cashcontrol.database.commands.CommandSelectName;
+import com.steveq.cashcontrol.database.commands.CommandSortByCategory;
+import com.steveq.cashcontrol.database.commands.CommandSortByName;
+import com.steveq.cashcontrol.database.commands.CommandSortByPrice;
+import com.steveq.cashcontrol.interfaces.Command;
 import com.steveq.cashcontrol.ui.fragments.dialogs.CreateReceiptDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.QueriesFragment;
 import com.steveq.cashcontrol.ui.fragments.ReceiptsFragment;
 import com.steveq.cashcontrol.ui.fragments.ReportFragment;
-import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 
 import java.util.ArrayList;
 
@@ -43,8 +43,13 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
     public static final String FRAGMENT_NAME = "fragment_name";
     private CreateReceiptDialogFragment mReceiptDialogFragment;
     public QueriesController mQueriesController;
-    public CommadSelectAll mCommadSelectAll;
+    public CommandSelectAll mCommandSelectAll;
     public CommandSelectBiggestPrice mCommandSelectBiggestPrice;
+    public CommandSortByPrice mCommandSortByPrice;
+    public CommandSortByName mCommandSortByName;
+    public CommandSortByCategory mCommandSortByCategory;
+    public CommandSelectCategory mCommandSelectCategory;
+    public CommandSelectName mCommandSelectName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +66,19 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
 
     }
     private void createQueries() {
-        mCommadSelectAll = new CommadSelectAll();
+        mCommandSelectAll = new CommandSelectAll();
         mCommandSelectBiggestPrice = new CommandSelectBiggestPrice();
+        mCommandSortByPrice = new CommandSortByPrice();
+        mCommandSortByName = new CommandSortByName();
+        mCommandSortByCategory = new CommandSortByCategory();
+        mCommandSelectCategory = new CommandSelectCategory();
+        mCommandSelectName = new CommandSelectName();
     }
 
     private void setPagerView() {
         mFragments = getFragments();
 
-        mQueriesController.setQueryCommands(mCommadSelectAll);
+        mQueriesController.setQueryCommands(mCommandSelectAll);
         mPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), mFragments);
         mViewPager = (ViewPager) findViewById(R.id.receiptsPager);
         mViewPager.setAdapter(mPagerAdapter);
@@ -86,6 +96,11 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
             public void onPageSelected(int position) {
                 Toast.makeText(ReceiptsActivity.this, Integer.toString(position), Toast.LENGTH_LONG).show();
                 if(position == 0) {
+                    EditText nameField = ((QueriesFragment) mFragments.get(1)).nameEditText;
+                    if(nameField != null) {
+                        String in = nameField.getText().toString().trim();
+                        mCommandSelectName.setInput(in);
+                    }
                     ((ReceiptsFragment) mFragments.get(position)).mAdapter.refreshData(mQueriesController.commandExecute());
                 }
             }

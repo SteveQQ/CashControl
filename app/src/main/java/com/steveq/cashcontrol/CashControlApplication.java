@@ -14,4 +14,6 @@ public class CashControlApplication extends android.app.Application {
         return instance;
     }
 
+
+
 }

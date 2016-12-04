@@ -166,4 +166,190 @@ public class ReceiptsDataSource extends DataSource {
         return result;
     }
 
+    public ArrayList<Receipt> sortByPrice() {
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        Cursor cursor = db.query(
+                ReceiptDataBaseHelper.RECEIPTS_TABLE,
+                new String[]{BaseColumns._ID,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY},
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalog.getId(),
+                null,
+                null,
+                null,
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE + " DESC",
+                null
+        );
+
+        ArrayList<Receipt> receipts = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                receipts.add(new Receipt(getIntegerFromColumnName(cursor, BaseColumns._ID),
+                        getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME),
+                        getDoubleFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE),
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY))
+                );
+            } while (cursor.moveToNext());
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        close(db);
+        return receipts;
+    }
+
+    public ArrayList<Receipt> sortByName() {
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        Cursor cursor = db.query(
+                ReceiptDataBaseHelper.RECEIPTS_TABLE,
+                new String[]{BaseColumns._ID,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY},
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalog.getId(),
+                null,
+                null,
+                null,
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME + " ASC",
+                null
+        );
+
+        ArrayList<Receipt> receipts = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                receipts.add(new Receipt(getIntegerFromColumnName(cursor, BaseColumns._ID),
+                        getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME),
+                        getDoubleFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE),
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY))
+                );
+            } while (cursor.moveToNext());
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        close(db);
+        return receipts;
+    }
+
+    public ArrayList<Receipt> sortByCategory() {
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        Cursor cursor = db.query(
+                ReceiptDataBaseHelper.RECEIPTS_TABLE,
+                new String[]{BaseColumns._ID,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE,
+                        ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY},
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG + " = " + CatalogsActivity.currentCatalog.getId(),
+                null,
+                null,
+                null,
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY + " ASC",
+                null
+        );
+
+        ArrayList<Receipt> receipts = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                receipts.add(new Receipt(getIntegerFromColumnName(cursor, BaseColumns._ID),
+                        getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME),
+                        getDoubleFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE),
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY))
+                );
+            } while (cursor.moveToNext());
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        close(db);
+        return receipts;
+    }
+
+    public ArrayList<Receipt> selectCategory(String category){
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ReceiptDataBaseHelper.RECEIPTS_TABLE +
+                                    " WHERE " + ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG +
+                                    " = " + CatalogsActivity.currentCatalog.getId() + " AND " +
+                                    ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY + " = " +
+                                    "\"" + category + "\"" + " ;", null);
+
+
+        ArrayList<Receipt> receipts = new ArrayList<>();
+
+        if(cursor.moveToFirst()){
+            do{
+                receipts.add(new Receipt(getIntegerFromColumnName(cursor, BaseColumns._ID),
+                        getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME),
+                        getDoubleFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE),
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY))
+                );
+            }while(cursor.moveToNext());
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        close(db);
+        return receipts;
+
+    }
+
+    public ArrayList<Receipt> selectName(String name){
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ReceiptDataBaseHelper.RECEIPTS_TABLE +
+                " WHERE " + ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG +
+                " = " + CatalogsActivity.currentCatalog.getId() + " AND " +
+                ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME + " = " +
+                "\"" + name + "\"" + " ;", null);
+
+
+        ArrayList<Receipt> receipts = new ArrayList<>();
+
+        if(cursor.moveToFirst()){
+            do{
+                receipts.add(new Receipt(getIntegerFromColumnName(cursor, BaseColumns._ID),
+                        getIntegerFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_NAME),
+                        getDoubleFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_PRICE),
+                        getLongFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_DATE),
+                        getStringFromColumnName(cursor, ReceiptDataBaseHelper.COLUMN_RECEIPTS_CATEGORY))
+                );
+            }while(cursor.moveToNext());
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        close(db);
+        return receipts;
+
+    }
+
 }

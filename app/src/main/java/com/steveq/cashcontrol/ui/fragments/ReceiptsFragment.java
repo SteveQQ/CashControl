@@ -8,15 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.ReceiptsAdapter;
-import com.steveq.cashcontrol.controller.QueriesController;
-import com.steveq.cashcontrol.database.ReceiptsDataSource;
-import com.steveq.cashcontrol.database.commands.CommadSelectAll;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
-import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
 import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
