@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.steveq.cashcontrol"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -28,4 +29,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:design:24.2.0'
+    compile 'com.itextpdf:itextg:5.5.10'
 }

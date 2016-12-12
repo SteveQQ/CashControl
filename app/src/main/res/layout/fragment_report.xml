@@ -4,12 +4,11 @@
              android:layout_height="match_parent"
              tools:context="com.steveq.cashcontrol.ui.fragments.ReportFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="REPORT FRAGMENT"
-        android:textSize="36sp"
-        android:gravity="center"/>
+    <ImageView
+        android:id="@+id/generateFileImageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_file_100"
+        android:layout_gravity="center"/>
 
 </FrameLayout>
