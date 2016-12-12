@@ -1,9 +1,7 @@
 package com.steveq.cashcontrol.ui.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.itextpdf.text.Anchor;
-import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
@@ -35,7 +36,8 @@ import java.io.IOException;
 public class ReportFragment extends Fragment {
 
     private static final String FILE = "/data/reports_cc/";
-    private static Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+    private static Font mTitleFont = new Font(Font.FontFamily.HELVETICA, 28, Font.BOLD);
+    private static Font mSubTitleFont = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLDITALIC);
     ImageView generateReport;
 
 
@@ -60,7 +62,11 @@ public class ReportFragment extends Fragment {
 
                 if(FileUtils.isExternalStorageAvailable() && FileUtils.isExternalWritable()){
                     Log.d("DEBUG", "External storage available and writable");
-                    File path = new File(getActivity().getExternalCacheDir() + "/reports/test.pdf");
+                    File path = new File(
+                            getActivity().getExternalCacheDir() +
+                            "/reports/" +
+                            CatalogsActivity.currentCatalog.getName() + ".pdf"
+                    );
                     Log.d("DEBUG", getActivity().getExternalCacheDir() + "/reports");
                     if(!path.exists()) {
                         if (path.getParentFile().mkdirs()) {
@@ -73,7 +79,13 @@ public class ReportFragment extends Fragment {
                         Document document = new Document();
                         PdfWriter.getInstance(document, new FileOutputStream(path));
                         document.open();
-                        addContent(document);
+
+                        document.add(createHeaderParagraph());
+                        document.add(Chunk.NEWLINE);
+                        document.add(Chunk.NEWLINE);
+                        document.add(Chunk.NEWLINE);
+                        document.add(createTable());
+
                         document.close();
 
                     } catch (DocumentException e) {
@@ -91,8 +103,44 @@ public class ReportFragment extends Fragment {
         return view;
     }
 
-    private void addContent(Document document) throws DocumentException {
-        document.add(new Paragraph("Hello World!"));
+    private PdfPTable createTable() {
+        PdfPTable table = new PdfPTable(4);
+
+        PdfPCell nameC = new PdfPCell(new Phrase("Name"));
+        nameC.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(nameC);
+
+        PdfPCell categoryC = new PdfPCell(new Phrase("Category"));
+        categoryC.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(categoryC);
+
+        PdfPCell dateC = new PdfPCell(new Phrase("Date"));
+        dateC.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(dateC);
+
+        PdfPCell cashC = new PdfPCell(new Phrase("Cash"));
+        cashC.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cashC);
+
+        for(int aw = 0; aw < 16; aw++){
+            table.addCell("hi");
+        }
+
+        return table;
+    }
+
+    private Paragraph createHeaderParagraph(){
+        Paragraph headerParagraph = new Paragraph();
+        Phrase headerPhrase = new Phrase();
+
+        headerPhrase.add(new Chunk("Receipts Report", mTitleFont));
+        headerPhrase.add(Chunk.NEWLINE);
+        headerPhrase.add(Chunk.NEWLINE);
+        headerPhrase.add(new Chunk("Catalog: " + CatalogsActivity.currentCatalog.getName(), mSubTitleFont));
+
+        headerParagraph.add(headerPhrase);
+
+        return headerParagraph;
     }
 
 }
