@@ -92,6 +92,26 @@ public class ReceiptsDataSource extends DataSource {
         return receipts;
     }
 
+    public int countReceipts(int catalogId){
+
+        SQLiteDatabase db = open();
+        db.beginTransaction();
+
+        int result = 0;
+
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + ReceiptDataBaseHelper.RECEIPTS_TABLE
+                                    + " WHERE " + ReceiptDataBaseHelper.COLUMN_RECEIPTS_FK_CATALOG
+                                    + " = " + catalogId, null);
+        if(cursor.moveToFirst()){
+            result = cursor.getInt(0);
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+
+        return result;
+    }
+
     public void deleteReceipt(Receipt receipt){
 
         SQLiteDatabase db = open();

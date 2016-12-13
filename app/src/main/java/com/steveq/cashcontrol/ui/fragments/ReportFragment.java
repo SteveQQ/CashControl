@@ -21,6 +21,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.steveq.cashcontrol.R;
+import com.steveq.cashcontrol.database.ReceiptsDataSource;
+import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
 import com.steveq.cashcontrol.utilities.FileUtils;
@@ -29,6 +31,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,7 +110,57 @@ public class ReportFragment extends Fragment {
 
     private PdfPTable createTable() {
         PdfPTable table = new PdfPTable(4);
+        table = fillHeader(table);
 
+        int cols = ReceiptsDataSource.getInstance().countReceipts(CatalogsActivity.currentCatalog.getId());
+        ArrayList<Receipt> receipts = ReceiptsDataSource.getInstance().readReceipts(CatalogsActivity.currentCatalog.getId());
+
+        table = fillTable(table, cols, receipts);
+
+        return table;
+    }
+
+    private PdfPTable fillTable(PdfPTable table, int cols, ArrayList<Receipt> receipts) {
+        for(int i = 0; i < cols; i++){
+            Receipt rowReceipt = receipts.get(i);
+
+            PdfPCell nameRec = new PdfPCell(new Phrase(rowReceipt.getName()));
+            nameRec.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell categoryRec = new PdfPCell(new Phrase(rowReceipt.getCategory()));
+            categoryRec.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+            PdfPCell dateDec = new PdfPCell(new Phrase(dateFormat.format(new Date(rowReceipt.getDate()))));
+            dateDec.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell cashRec = new PdfPCell(new Phrase(String.format("%.2f %s",rowReceipt.getPrice(), CatalogsActivity.currentCatalog.getCurrency())));
+            cashRec.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            table.addCell(nameRec);
+            table.addCell(categoryRec);
+            table.addCell(dateDec);
+            table.addCell(cashRec);
+        }
+        PdfPCell fillerCell = new PdfPCell(new Phrase(""));
+        fillerCell.setColspan(2);
+        table.addCell(fillerCell);
+
+        PdfPCell totalCell = new PdfPCell(new Phrase("Total: "));
+        totalCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(totalCell);
+
+        PdfPCell cashCell = new PdfPCell(new Phrase(String.format("%.2f %s",
+                                                    ReceiptsDataSource.getInstance().priceSum(),
+                                                    CatalogsActivity.currentCatalog.getCurrency()
+                                                    )));
+        cashCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(cashCell);
+
+        return table;
+    }
+
+    private PdfPTable fillHeader(PdfPTable table) {
         PdfPCell nameC = new PdfPCell(new Phrase("Name"));
         nameC.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(nameC);
@@ -121,11 +176,6 @@ public class ReportFragment extends Fragment {
         PdfPCell cashC = new PdfPCell(new Phrase("Cash"));
         cashC.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cashC);
-
-        for(int aw = 0; aw < 16; aw++){
-            table.addCell("hi");
-        }
-
         return table;
     }
 
@@ -133,6 +183,8 @@ public class ReportFragment extends Fragment {
         Paragraph headerParagraph = new Paragraph();
         Phrase headerPhrase = new Phrase();
 
+        headerPhrase.add(Chunk.NEWLINE);
+        headerPhrase.add(Chunk.NEWLINE);
         headerPhrase.add(new Chunk("Receipts Report", mTitleFont));
         headerPhrase.add(Chunk.NEWLINE);
         headerPhrase.add(Chunk.NEWLINE);
