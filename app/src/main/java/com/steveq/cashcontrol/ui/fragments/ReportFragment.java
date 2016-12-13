@@ -65,6 +65,8 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+
                 if(FileUtils.isExternalStorageAvailable() && FileUtils.isExternalWritable()){
                     Log.d("DEBUG", "External storage available and writable");
                     File path = new File(

@@ -4,16 +4,21 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.database.CatalogsDataSource;
 import com.steveq.cashcontrol.database.ReceiptsDataSource;
+import com.steveq.cashcontrol.interfaces.AlertListener;
 import com.steveq.cashcontrol.model.Catalog;
 import com.steveq.cashcontrol.model.Item;
 import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
+import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
+import com.steveq.cashcontrol.ui.fragments.ReceiptsFragment;
 
 import java.util.ArrayList;
 
@@ -21,7 +26,11 @@ public class SimpleAlertDialogFragment extends DialogFragment {
 
     public static final String TAG = SimpleAlertDialogFragment.class.getSimpleName();
     public static final String ITEM_KEY = "ITEM_KEY";
+    private String mMessage = "no message";
 
+    public void setMessage(String message) {
+        mMessage = message;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,23 +39,13 @@ public class SimpleAlertDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DatePickerStyle);
         builder
-                .setMessage("Are you sure deleting?")
+                .setMessage(mMessage)
                 .setPositiveButton("Yeah!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(item instanceof Catalog) {
-                            ArrayList<Receipt> receipts = ReceiptsDataSource.getInstance().readReceipts(((Catalog)item).getId());
-                            for(Receipt rec : receipts){
-                                ReceiptsDataSource.getInstance().deleteReceipt(rec);
-                            }
-                            CatalogsDataSource.getInstance().deleteCatalog((Catalog)item);
-                        } else if (item instanceof Receipt){
-                            ReceiptsDataSource.getInstance().deleteReceipt((Receipt)item);
-                            double p = ReceiptsDataSource
-                                    .getInstance()
-                                    .priceSum();
-                            CatalogsDataSource.getInstance().updateCatalogSum(CatalogsActivity.currentCatalog, p);
-                            CatalogsActivity.currentCatalog.setPrice(p);
+                        AlertListener parent = (AlertListener) getDialog().getContext()
+                        if(getParentFragment() instanceof AlertListener){
+                            ((AlertListener) getDialog().getContext()).reactOnAlert(item);
                         }
                     }
                 })
