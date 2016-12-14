@@ -22,15 +22,19 @@ import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
 import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class ReceiptsFragment extends Fragment implements ItemOnLongClickListener, AlertListener{
 
     private RecyclerView mRecyclerView;
     public ReceiptsAdapter mAdapter;
+    private ArrayDeque<Receipt> highlightedItems;
 
 
     public ReceiptsFragment() {
+        highlightedItems = new ArrayDeque<>();
         Bundle bundle = new Bundle();
         bundle.putString(ReceiptsActivity.FRAGMENT_NAME, "Receipts");
         this.setArguments(bundle);
@@ -58,36 +62,21 @@ public class ReceiptsFragment extends Fragment implements ItemOnLongClickListene
     @Override
     public void onLongClick(Item item) {
 
-        Receipt receipt = (Receipt) item;
+        highlightedItems.addFirst((Receipt)item);
         SimpleAlertDialogFragment alertDialog = new SimpleAlertDialogFragment();
         alertDialog.setMessage("Are you sure deleting receipt?");
         alertDialog.show(getActivity().getFragmentManager(), SimpleAlertDialogFragment.TAG);
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SimpleAlertDialogFragment.ITEM_KEY, receipt);
-        alertDialog.setArguments(bundle);
-
     }
 
     @Override
-    public void reactOnAlert(Object... obj) {
-        Receipt item = (Receipt) obj[0];
+    public void reactOnAlert() {
 
-//        if(item instanceof Catalog) {
-//            ArrayList<Receipt> receipts = ReceiptsDataSource.getInstance().readReceipts(((Catalog)item).getId());
-//            for(Receipt rec : receipts){
-//                ReceiptsDataSource.getInstance().deleteReceipt(rec);
-//            }
-//            CatalogsDataSource.getInstance().deleteCatalog((Catalog)item);
-//        } else if (item instanceof Receipt){
-
-        if(item != null){
-            ReceiptsDataSource.getInstance().deleteReceipt((Receipt)item);
+            ReceiptsDataSource.getInstance().deleteReceipt(highlightedItems.poll());
             double p = ReceiptsDataSource
                     .getInstance()
                     .priceSum();
             CatalogsDataSource.getInstance().updateCatalogSum(CatalogsActivity.currentCatalog, p);
             CatalogsActivity.currentCatalog.setPrice(p);
-        }
     }
 }

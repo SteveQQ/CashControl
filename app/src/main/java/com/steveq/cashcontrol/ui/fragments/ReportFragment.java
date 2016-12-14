@@ -22,9 +22,11 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.database.ReceiptsDataSource;
+import com.steveq.cashcontrol.interfaces.AlertListener;
 import com.steveq.cashcontrol.model.Receipt;
 import com.steveq.cashcontrol.ui.activities.CatalogsActivity;
 import com.steveq.cashcontrol.ui.activities.ReceiptsActivity;
+import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 import com.steveq.cashcontrol.utilities.FileUtils;
 
 import java.io.File;
@@ -38,9 +40,10 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReportFragment extends Fragment {
+public class ReportFragment extends Fragment implements AlertListener {
 
     private static final String FILE = "/data/reports_cc/";
+    public static final String TAG = ReportFragment.class.getSimpleName();
     private static Font mTitleFont = new Font(Font.FontFamily.HELVETICA, 28, Font.BOLD);
     private static Font mSubTitleFont = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLDITALIC);
     ImageView generateReport;
@@ -65,44 +68,9 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
-                if(FileUtils.isExternalStorageAvailable() && FileUtils.isExternalWritable()){
-                    Log.d("DEBUG", "External storage available and writable");
-                    File path = new File(
-                            getActivity().getExternalCacheDir() +
-                            "/reports/" +
-                            CatalogsActivity.currentCatalog.getName() + ".pdf"
-                    );
-                    Log.d("DEBUG", getActivity().getExternalCacheDir() + "/reports");
-                    if(!path.exists()) {
-                        if (path.getParentFile().mkdirs()) {
-                            Toast.makeText(getActivity(), "catalog created", Toast.LENGTH_LONG).show();
-                            Log.d("DEBUG", "Catalog created");
-                        }
-                    }
-                    try {
-
-                        Document document = new Document();
-                        PdfWriter.getInstance(document, new FileOutputStream(path));
-                        document.open();
-
-                        document.add(createHeaderParagraph());
-                        document.add(Chunk.NEWLINE);
-                        document.add(Chunk.NEWLINE);
-                        document.add(Chunk.NEWLINE);
-                        document.add(createTable());
-
-                        document.close();
-
-                    } catch (DocumentException e) {
-                        e.printStackTrace();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException ioe){
-                        ioe.printStackTrace();
-                    }
-                }
+                SimpleAlertDialogFragment reportAlert = new SimpleAlertDialogFragment();
+                reportAlert.setMessage("Do you want to create report?");
+                reportAlert.show(getActivity().getFragmentManager(), TAG);
 
             }
         });
@@ -197,4 +165,37 @@ public class ReportFragment extends Fragment {
         return headerParagraph;
     }
 
+    @Override
+    public void reactOnAlert() {
+        if(FileUtils.isExternalStorageAvailable() && FileUtils.isExternalWritable()){
+            File path = new File(
+                    getActivity().getExternalCacheDir() +
+                            "/reports/" +
+                            CatalogsActivity.currentCatalog.getName() + ".pdf"
+            );
+            path.getParentFile().mkdirs();
+            try {
+
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(path));
+                document.open();
+
+                document.add(createHeaderParagraph());
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(Chunk.NEWLINE);
+                document.add(createTable());
+
+                document.close();
+                Toast.makeText(getActivity(), "PDF created", Toast.LENGTH_LONG).show();
+
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException ioe){
+                ioe.printStackTrace();
+            }
+        }
+    }
 }

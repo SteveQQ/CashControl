@@ -25,7 +25,6 @@ import com.steveq.cashcontrol.database.commands.CommandSelectName;
 import com.steveq.cashcontrol.database.commands.CommandSortByCategory;
 import com.steveq.cashcontrol.database.commands.CommandSortByName;
 import com.steveq.cashcontrol.database.commands.CommandSortByPrice;
-import com.steveq.cashcontrol.interfaces.Command;
 import com.steveq.cashcontrol.ui.fragments.dialogs.CreateReceiptDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.QueriesFragment;
 import com.steveq.cashcontrol.ui.fragments.ReceiptsFragment;
@@ -75,8 +74,16 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
         mCommandSelectName = new CommandSelectName();
     }
 
+    public ArrayList<Fragment> getFragments() {
+        return mFragments;
+    }
+
+    public ViewPager getViewPager() {
+        return mViewPager;
+    }
+
     private void setPagerView() {
-        mFragments = getFragments();
+        mFragments = setupFragments();
 
         mQueriesController.setQueryCommands(mCommandSelectAll);
         mPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), mFragments);
@@ -94,7 +101,6 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
 
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(ReceiptsActivity.this, Integer.toString(position), Toast.LENGTH_LONG).show();
                 if(position == 0) {
                     EditText nameField = ((QueriesFragment) mFragments.get(1)).nameEditText;
                     if(nameField != null) {
@@ -112,7 +118,7 @@ public class ReceiptsActivity extends AppCompatActivity implements DialogInterfa
         });
     }
 
-    private ArrayList<Fragment> getFragments() {
+    private ArrayList<Fragment> setupFragments() {
 
         ArrayList<Fragment> result = new ArrayList<>();
         result.add(new ReceiptsFragment());

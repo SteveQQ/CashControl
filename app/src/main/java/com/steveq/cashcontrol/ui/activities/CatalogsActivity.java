@@ -15,6 +15,8 @@ import com.steveq.cashcontrol.R;
 import com.steveq.cashcontrol.adapters.CatalogsAdapter;
 import com.steveq.cashcontrol.controller.UserManager;
 import com.steveq.cashcontrol.database.CatalogsDataSource;
+import com.steveq.cashcontrol.database.ReceiptsDataSource;
+import com.steveq.cashcontrol.interfaces.AlertListener;
 import com.steveq.cashcontrol.interfaces.ItemOnClickListener;
 import com.steveq.cashcontrol.interfaces.ItemOnLongClickListener;
 import com.steveq.cashcontrol.model.Catalog;
@@ -22,7 +24,9 @@ import com.steveq.cashcontrol.model.Item;
 import com.steveq.cashcontrol.ui.fragments.dialogs.CreateCatalogDialogFragment;
 import com.steveq.cashcontrol.ui.fragments.dialogs.SimpleAlertDialogFragment;
 
-public class CatalogsActivity extends AppCompatActivity implements DialogInterface.OnDismissListener, ItemOnClickListener, ItemOnLongClickListener {
+import java.util.ArrayDeque;
+
+public class CatalogsActivity extends AppCompatActivity implements AlertListener, DialogInterface.OnDismissListener, ItemOnClickListener, ItemOnLongClickListener {
 
     private Toolbar catalogsToolbar;
     private RecyclerView recyclerView;
@@ -30,10 +34,12 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
     private CreateCatalogDialogFragment mCatalogDialogFragment;
     public static final String CATALOG_ID = "CATALOG_ID";
     public static Catalog currentCatalog;
+    private ArrayDeque<Catalog> highlightedCatalog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        highlightedCatalog = new ArrayDeque<>();
         setContentView(R.layout.activity_catalogs);
         setToolbarView();
         createRecyclerView();
@@ -86,13 +92,13 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
 
     @Override
     public void onLongClick(Item item) {
-        Catalog catalog = (Catalog) item;
+        highlightedCatalog.addFirst((Catalog)item);
         SimpleAlertDialogFragment alertDialog = new SimpleAlertDialogFragment();
         alertDialog.show(getFragmentManager(), SimpleAlertDialogFragment.TAG);
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SimpleAlertDialogFragment.ITEM_KEY, catalog);
-        alertDialog.setArguments(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable(SimpleAlertDialogFragment.ITEM_KEY, catalog);
+//        alertDialog.setArguments(bundle);
     }
 
     @Override
@@ -122,4 +128,9 @@ public class CatalogsActivity extends AppCompatActivity implements DialogInterfa
         getSupportActionBar().setTitle(getResources().getString(R.string.catalogs_title));
     }
 
+    @Override
+    public void reactOnAlert() {
+        CatalogsDataSource.getInstance().deleteCatalog(highlightedCatalog.poll());
+        mAdapter.refreshData();
+    }
 }
